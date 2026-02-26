@@ -1,0 +1,32 @@
+---
+title: ""
+number-sections: false
+---
+
+# Why This Part Matters
+
+Modern AI systems are built in Python.
+
+But Python is not the goal.
+
+The goal is to think in abstractions.
+
+---
+
+# Learning Outcomes
+
+By the end of this part, you will:
+
+- Think in modular systems
+- Design reusable components
+- Handle data pipelines
+- Prepare for ML systems
+
+---
+
+# Chapters in This Part
+
+1. The AI Engineer Mindset  
+2. Python Execution Model  
+3. Core Data Types  
+...

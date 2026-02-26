@@ -1,0 +1,10 @@
+---
+title: ""
+number-sections: false
+---
+
+# Think Like an AI Engineer
+
+This book is about building systems, not just writing code.
+
+We start with Python execution — because everything in AI depends on understanding how code actually runs.

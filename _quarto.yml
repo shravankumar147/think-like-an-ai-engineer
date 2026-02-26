@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: _site
+
+book:
+  title: "Think Like an AI Engineer"
+  subtitle: "Build Systems. Understand Deeply. Apply in Practice."
+  author: "Shravan Kumar"
+  date: today
+
+  chapters:
+    - index.qmd
+    - parts/part-1-python-foundations/01_python_execution_model.qmd
+
+format:
+
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    number-depth: 2
+    code-copy: true
+
+  pdf:
+    documentclass: book
+    toc: true
+    number-sections: true
+    number-depth: 2
+    fontsize: 11pt
+    geometry:
+      - margin=1in
+
+execute:
+  echo: true
+  warning: false
+  message: false

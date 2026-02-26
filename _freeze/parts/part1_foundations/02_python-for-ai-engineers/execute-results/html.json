@@ -1,0 +1,12 @@
+{
+  "hash": "df13f357d7e756d8fcbc66604c170ead",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Python for AI Engineers\"\n---\n\n# The Real Problem\n\nYou need to process 10 million records efficiently.\n\n\n## Quick Sanity Test\n\n::: {#42960e56 .cell execution_count=1}\n``` {.python .cell-code}\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nPython path: /Users/shravan/Documents/think-like-an-ai-engineer/.venv/bin/python\nNumPy version: 2.4.2\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "02_python-for-ai-engineers_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

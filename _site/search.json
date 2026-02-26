@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Think Like an AI Engineer",
+    "section": "",
+    "text": "Think Like an AI Engineer\nThis book is about building systems, not just writing code.\nWe start with Python execution — because everything in AI depends on understanding how code actually runs.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Like an AI Engineer</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_python_execution_model.html",
+    "href": "parts/part-1-python-foundations/01_python_execution_model.html",
+    "title": "2  Python Execution Model",
+    "section": "",
+    "text": "2.1 The Real Problem\nWhen you run:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_python_execution_model.html#the-real-problem",
+    "href": "parts/part-1-python-foundations/01_python_execution_model.html#the-real-problem",
+    "title": "2  Python Execution Model",
+    "section": "",
+    "text": "x = 10\ny = x\nx = 20",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_python_execution_model.html#quick-sanity-test",
+    "href": "parts/part-1-python-foundations/01_python_execution_model.html#quick-sanity-test",
+    "title": "2  Python Execution Model",
+    "section": "2.2 Quick Sanity Test",
+    "text": "2.2 Quick Sanity Test\n\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n\nPython path: /Users/shravan/modern-ai-engineering/.venv/bin/python3\nNumPy version: 2.4.2",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  }
+]

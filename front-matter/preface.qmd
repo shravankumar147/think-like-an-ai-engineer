@@ -1,0 +1,9 @@
+---
+title: "Preface"
+---
+
+AI is not about models.
+
+It is about systems.
+
+System → Intuition → Math → Code.

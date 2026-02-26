@@ -1,0 +1,12 @@
+---
+title: "Roadmap"
+---
+
+This book is structured into six parts:
+
+1. Foundations of AI Systems  
+2. Machine Learning from First Principles  
+3. Deep Learning Systems  
+4. Large Language Models  
+5. AI System Design  
+6. Production & MLOps
