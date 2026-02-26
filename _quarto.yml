@@ -10,7 +10,8 @@ book:
 
   chapters:
     - index.qmd
-    - parts/part-1-python-foundations/01_python_execution_model.qmd
+    - parts/part-1-python-foundations/01_the_ai_engineer_mindset.qmd
+    - parts/part-1-python-foundations/02_python_execution_model.qmd
 
 format:
 
