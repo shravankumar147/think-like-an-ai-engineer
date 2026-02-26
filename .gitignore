@@ -1,28 +1,57 @@
+# ==============================
 # Python
+# ==============================
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
 *.so
 *.egg-info/
 dist/
 build/
 
-# Virtual environment
+# ==============================
+# Virtual Environments
+# ==============================
 .venv/
 venv/
+env/
 
-# Jupyter / Quarto cache
-.jupyter_cache/
-*_cache/
+# ==============================
+# Jupyter
+# ==============================
 .ipynb_checkpoints/
+.jupyter_cache/
 
-# Quarto output
+# ==============================
+# Quarto
+# ==============================
 _site/
 .quarto/
+*_cache/
+**/*.quarto_ipynb
 
-# OS files
+# ==============================
+# macOS / Windows
+# ==============================
 .DS_Store
 Thumbs.db
-/.quarto/
-**/*.quarto_ipynb
+
+# ==============================
+# Logs
+# ==============================
+*.log
+
+# ==============================
+# VS Code
+# ==============================
+.vscode/
+
+# ==============================
+# PDF Build Artifacts (Optional)
+# ==============================
+*.aux
+*.toc
+*.out
+*.blg
+*.bbl
+*.fls
+*.fdb_latexmk
