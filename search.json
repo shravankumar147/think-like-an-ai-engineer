@@ -144,7 +144,7 @@
     "href": "parts/part-1-python-foundations/02_python_execution_model.html#quick-sanity-test",
     "title": "3  Python Execution Model",
     "section": "3.2 Quick Sanity Test",
-    "text": "3.2 Quick Sanity Test\n\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n\nPython path: /Users/shravan/modern-ai-engineering/.venv/bin/python3\nNumPy version: 2.4.2",
+    "text": "3.2 Quick Sanity Test\n\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n\nPython path: /opt/hostedtoolcache/Python/3.11.14/x64/bin/python3\nNumPy version: 2.4.2",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Python Execution Model</span>"
     ]
