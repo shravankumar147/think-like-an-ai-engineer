@@ -1,0 +1,152 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Think Like an AI Engineer",
+    "section": "",
+    "text": "Think Like an AI Engineer\nThis book is about building systems, not just writing code.\nWe start with Python execution — because everything in AI depends on understanding how code actually runs.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Like an AI Engineer</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html",
+    "title": "2  The AI Engineer Mindset",
+    "section": "",
+    "text": "2.1 Why This Chapter Exists\nMany people learn AI by following tutorials.\nThey write code, train a model, print an accuracy score, and move on.\nIt feels like progress.\nBut nothing durable has been built.\nNo system.\nNo abstraction.\nNo reusable thinking.\nThis chapter is about the shift from experimenting with models to engineering AI systems.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#the-real-problem",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#the-real-problem",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.2 The Real Problem",
+    "text": "2.2 The Real Problem\nMost learning paths look like this:\n\nLearn Python\nImport scikit-learn\nFit a model\nPrint accuracy\nTry another algorithm\n\nEverything works.\nAnd yet something important is missing.\nYou are learning tools, not thinking.\nAn AI engineer does not just train models.\nAn AI engineer designs systems that:\n\ningest data\ntransform information\nlearn patterns\nproduce decisions\noperate reliably in the real world\n\nThe difference is not syntax.\nIt is mindset.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#a-simple-experiment",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#a-simple-experiment",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.3 A Simple Experiment",
+    "text": "2.3 A Simple Experiment\nExample — Minimal Linear Regression\nfrom sklearn.linear_model import LinearRegression\nimport numpy as np\n\nX = np.array([[1], [2], [3], [4]])\ny = np.array([2, 4, 6, 8])\n\nmodel = LinearRegression()\nmodel.fit(X, y)\n\nprint(model.predict([[5]]))\nThis works.\nThe prediction looks correct.\nMost notebooks stop here.\nBut engineering starts here.\n\n🤔 Thinking Prompts\n\nWhere did the data come from?\nWhat happens if values are missing?\nWhat if the distribution changes?\nWhat if the model drifts?\nWhere is this deployed?\nWho monitors it?\nHow does it fail?\n\nA notebook user celebrates the prediction.\nAn AI engineer starts asking system-level questions.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#thinking-in-systems",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#thinking-in-systems",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.4 Thinking in Systems",
+    "text": "2.4 Thinking in Systems\nA model is not intelligence.\nIt is one component in a larger architecture.\nAn AI system looks more like this:\nRaw Data\n   ↓\nProcessing\n   ↓\nFeature Engineering\n   ↓\nModel\n   ↓\nEvaluation\n   ↓\nDeployment\n   ↓\nMonitoring\nEach block introduces:\n\nstate\nassumptions\nfailure points\nperformance constraints\n\nIf you do not understand the system, you cannot debug it.\nAnd if you cannot debug it, you cannot scale it.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#three-layers-of-mastery",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#three-layers-of-mastery",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.5 Three Layers of Mastery",
+    "text": "2.5 Three Layers of Mastery\nAI engineering operates on three layers at the same time.\n\nLayer 1 — Code\n\nSyntax\nAPIs\nLibraries\nTools\n\nThis is the easiest layer.\nMost courses stop here.\n\n\n\nLayer 2 — Mechanisms\n\nHow memory works\nHow data flows\nHow training updates weights\nHow gradients propagate\nWhy overfitting happens\n\nThis is where understanding begins.\nYou stop memorizing and start reasoning.\n\n\n\nLayer 3 — Systems\n\nHow components interact\nHow latency affects inference\nHow distribution shift breaks models\nHow infrastructure supports training\nHow feedback loops influence behavior\n\nThis is the engineering layer.\nVery few people train this kind of thinking.\nThis book does.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#the-core-shift",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#the-core-shift",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.6 The Core Shift",
+    "text": "2.6 The Core Shift\nEngineering begins when your questions change.\nInstead of asking:\n\n“How do I use this library?”\n\nAsk:\n\n“What problem does this abstraction solve?”\n\nInstead of:\n\n“Which algorithm gives better accuracy?”\n\nAsk:\n\n“What assumptions does this algorithm make?”\n\nInstead of:\n\n“How do I tune hyperparameters?”\n\nAsk:\n\n“Why does this model behave this way under distribution shift?”\n\nCuriosity about mechanisms separates practitioners from engineers.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#engineering-vs-experimentation",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#engineering-vs-experimentation",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.7 Engineering vs Experimentation",
+    "text": "2.7 Engineering vs Experimentation\nExperimentation is essential.\nBut experimentation without structure creates chaos.\nAn engineer:\n\nversions data\nlogs metrics\nreproduces results\ncontrols randomness\ndesigns abstractions\nthinks about failure\n\nConsider this single line:\nnp.random.seed(42)\nThis is not a small detail.\nIt is about reproducibility.\nReproducibility is not academic.\nIt is operational survival.\nIf you cannot recreate results, you cannot trust them.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#the-mental-model-of-an-ai-engineer",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#the-mental-model-of-an-ai-engineer",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.8 The Mental Model of an AI Engineer",
+    "text": "2.8 The Mental Model of an AI Engineer\nAn AI engineer constantly asks:\n\nWhat are the inputs?\nWhat transformations happen?\nWhere is state stored?\nWhat assumptions exist?\nWhat breaks first?\nHow does this scale?\nHow is this monitored?\n\nIf you cannot answer these questions, you are experimenting.\nNot engineering.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#long-term-thinking",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#long-term-thinking",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.9 Long-Term Thinking",
+    "text": "2.9 Long-Term Thinking\nAI evolves quickly.\nLibraries change. Frameworks shift. Architectures improve.\nBut systems thinking does not expire.\nUnderstanding these ideas remains valuable:\n\nmemory\ncomputation\noptimization\nabstraction\ntradeoffs\n\nTools are temporary.\nPrinciples are durable.\nThat is why this book begins with mindset.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#exercises",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#exercises",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.10 🧪 Exercises",
+    "text": "2.10 🧪 Exercises\n\nConceptual\n\nWhat is the difference between training a model and building a system?\nWhy is reproducibility critical in ML workflows?\nGive three examples of system-level failures unrelated to model accuracy.\n\n\n\nPractical\n\nTake a simple ML notebook you have written.\nList all hidden assumptions.\nIdentify missing production components.\nModify a script to make it reproducible.\nAdd logging to a basic model training loop.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#key-takeaways",
+    "href": "parts/part-1-python-foundations/01_the_ai_engineer_mindset.html#key-takeaways",
+    "title": "2  The AI Engineer Mindset",
+    "section": "2.11 🧭 Key Takeaways",
+    "text": "2.11 🧭 Key Takeaways\n\n\nAI engineering is system design, not just model training.\nUnderstanding mechanisms matters more than memorizing APIs.\nReproducibility is a first-class engineering requirement.\nSystems thinking scales. Tool knowledge expires.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>The AI Engineer Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/02_python_execution_model.html",
+    "href": "parts/part-1-python-foundations/02_python_execution_model.html",
+    "title": "3  Python Execution Model",
+    "section": "",
+    "text": "3.1 The Real Problem\nWhen you run:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/02_python_execution_model.html#the-real-problem",
+    "href": "parts/part-1-python-foundations/02_python_execution_model.html#the-real-problem",
+    "title": "3  Python Execution Model",
+    "section": "",
+    "text": "x = 10\ny = x\nx = 20",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/02_python_execution_model.html#quick-sanity-test",
+    "href": "parts/part-1-python-foundations/02_python_execution_model.html#quick-sanity-test",
+    "title": "3  Python Execution Model",
+    "section": "3.2 Quick Sanity Test",
+    "text": "3.2 Quick Sanity Test\n\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n\nPython path: /Users/shravan/modern-ai-engineering/.venv/bin/python3\nNumPy version: 2.4.2",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  }
+]
