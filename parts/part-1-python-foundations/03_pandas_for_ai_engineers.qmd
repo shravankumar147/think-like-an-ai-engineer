@@ -1,0 +1,323 @@
+---
+title: "Pandas for AI Engineers"
+---
+
+# Why Pandas Matters
+
+Pandas is one of the core tools for working with tabular data in Python.
+
+For AI engineers, pandas is rarely the final destination.
+
+It is the layer where raw information becomes usable system input.
+
+That means pandas work is usually about:
+
+- loading data reliably
+- inspecting shape and quality
+- selecting useful subsets
+- deriving features
+- aggregating behavior
+- joining information from multiple sources
+- handling timestamps and text before downstream modeling
+
+The official pandas getting-started guide organizes the learning path around those exact tasks, and this chapter follows that same progression in a book-friendly form.
+
+Source: [pandas getting started](https://pandas.pydata.org/docs/getting_started/index.html)
+
+## Mental Model
+
+In pandas, the main abstraction is the `DataFrame`.
+
+You can think of it as:
+
+- a table with named columns
+- an index that identifies rows
+- vectorized operations over whole columns
+- a bridge between raw files and analytical or modeling code
+
+The key shift is to stop thinking row by row.
+
+Most good pandas code works column-wise and table-wise.
+
+## 1. Creating And Inspecting Tables
+
+Start with small, explicit tables so you can see the abstraction clearly.
+
+```{python}
+import pandas as pd
+
+customers = pd.DataFrame(
+    {
+        "customer_id": [101, 102, 103, 104],
+        "plan": ["free", "pro", "team", "pro"],
+        "monthly_spend": [0, 29, 99, 29],
+        "active": [True, True, False, True],
+    }
+)
+
+customers
+```
+
+Useful first questions:
+
+- What are the column names?
+- How many rows and columns are present?
+- What data types did pandas infer?
+- Are there missing values?
+
+```{python}
+customers.shape
+```
+
+```{python}
+customers.dtypes
+```
+
+```{python}
+customers.info()
+```
+
+## 2. Reading And Writing Data
+
+The pandas docs emphasize `read_*` functions and `to_*` methods as the main I/O interface.
+
+That is a strong pattern to internalize:
+
+- input usually starts with `pd.read_*`
+- output usually ends with `.to_*()`
+
+Common examples include:
+
+- `pd.read_csv(...)`
+- `pd.read_json(...)`
+- `pd.read_parquet(...)`
+- `df.to_csv(...)`
+
+For this repo, the most common beginner workflow will likely be CSV-based.
+
+```{python}
+from io import StringIO
+
+events = pd.DataFrame(
+    {
+        "event_id": [1, 2, 3],
+        "event_type": ["click", "purchase", "click"],
+        "value": [0.0, 120.0, 0.0],
+    }
+)
+
+buffer = StringIO()
+events.to_csv(buffer, index=False)
+buffer.seek(0)
+loaded = pd.read_csv(buffer)
+loaded
+```
+
+## 3. Selecting Subsets
+
+Selection is one of the first places where pandas becomes expressive.
+
+```{python}
+customers["plan"]
+```
+
+```{python}
+customers[["customer_id", "monthly_spend"]]
+```
+
+```{python}
+customers.loc[customers["monthly_spend"] > 0, ["customer_id", "plan", "monthly_spend"]]
+```
+
+Use these patterns often:
+
+- `df["col"]` for one column
+- `df[["a", "b"]]` for multiple columns
+- `df.loc[row_filter, columns]` for label-based selection
+- `df.iloc[...]` for position-based selection
+
+## 4. Creating Derived Columns
+
+The official tutorial highlights derived columns because they are central to feature engineering.
+
+```{python}
+customers["annualized_spend"] = customers["monthly_spend"] * 12
+customers["is_paid"] = customers["monthly_spend"] > 0
+
+customers
+```
+
+This matters for AI work because features are often transformations, not raw inputs.
+
+## 5. Summary Statistics And Grouped Analysis
+
+Before training or evaluating anything, summarize the data.
+
+```{python}
+customers["monthly_spend"].describe()
+```
+
+```{python}
+customers.groupby("plan")["monthly_spend"].agg(["count", "mean", "max"])
+```
+
+`groupby` is one of the most important pandas tools because it turns raw tables into behavioral summaries.
+
+## 6. Reshaping Tables
+
+Real systems often receive data in awkward formats.
+
+Pandas gives you tools to reshape tables for analysis or modeling.
+
+```{python}
+metrics = pd.DataFrame(
+    {
+        "model": ["baseline", "baseline", "tuned", "tuned"],
+        "metric": ["accuracy", "f1", "accuracy", "f1"],
+        "score": [0.81, 0.77, 0.86, 0.83],
+    }
+)
+
+metrics
+```
+
+```{python}
+metrics.pivot(index="model", columns="metric", values="score")
+```
+
+## 7. Combining Tables
+
+Data rarely lives in one clean table.
+
+You often need to join metadata, transactions, labels, or model outputs.
+
+```{python}
+profiles = pd.DataFrame(
+    {
+        "customer_id": [101, 102, 103, 104],
+        "region": ["US", "IN", "US", "DE"],
+    }
+)
+
+spend = pd.DataFrame(
+    {
+        "customer_id": [101, 102, 104],
+        "monthly_spend": [0, 29, 29],
+    }
+)
+
+profiles.merge(spend, on="customer_id", how="left")
+```
+
+The default mental model:
+
+- use `merge` for database-style joins
+- use `concat` to stack tables by rows or columns
+
+## 8. Time Series Basics
+
+Time is everywhere in AI systems:
+
+- logs
+- events
+- monitoring
+- feature histories
+- forecasting inputs
+
+```{python}
+traffic = pd.DataFrame(
+    {
+        "timestamp": pd.to_datetime(
+            [
+                "2026-01-01 09:00:00",
+                "2026-01-01 10:00:00",
+                "2026-01-01 11:00:00",
+            ]
+        ),
+        "requests": [120, 135, 150],
+    }
+)
+
+traffic["hour"] = traffic["timestamp"].dt.hour
+traffic
+```
+
+Once a column is datetime-aware, pandas gives you rich `.dt` accessors for extracting useful temporal features.
+
+## 9. Text Handling Basics
+
+Text cleaning is another common preprocessing step.
+
+```{python}
+reviews = pd.DataFrame(
+    {
+        "review": [
+            "Great product!",
+            "delivery delayed",
+            "Works well for small teams",
+        ]
+    }
+)
+
+reviews["review_lower"] = reviews["review"].str.lower()
+reviews["contains_delivery"] = reviews["review_lower"].str.contains("delivery")
+reviews
+```
+
+The `.str` accessor makes string operations feel vectorized, just like numeric column operations.
+
+## 10. Plotting For Fast Inspection
+
+The pandas getting-started guide includes plotting early because plots are useful for quick feedback loops.
+
+```{python}
+sales = pd.DataFrame(
+    {
+        "month": ["Jan", "Feb", "Mar", "Apr"],
+        "revenue": [10, 12, 15, 18],
+    }
+)
+
+sales.plot(x="month", y="revenue", kind="bar", title="Monthly Revenue");
+```
+
+For serious visualization work, teams often move to Matplotlib, Seaborn, or Plotly.
+
+But pandas plotting is perfect for fast inspection.
+
+## Common Beginner Mistakes
+
+- Writing row-by-row loops when vectorized column operations would be simpler
+- Forgetting to inspect dtypes before debugging results
+- Using chained indexing instead of clear `loc` selection
+- Merging tables without first checking key uniqueness
+- Treating missing values as a cosmetic issue instead of a data contract issue
+
+## Suggested Learning Path
+
+If you want to learn pandas deeply, practice in this order:
+
+1. Create and inspect `DataFrame` objects
+2. Load and save CSV data
+3. Filter rows and choose columns with `loc`
+4. Add derived columns
+5. Use `groupby` and aggregations
+6. Reshape with `pivot` and `melt`
+7. Join tables with `merge`
+8. Work with datetime and string columns
+
+## Practice
+
+The following notebooks are included in this repo as hands-on exercises:
+
+- [Pandas Basics Practice](../../labs/pandas/01_pandas_basics_practice.ipynb)
+- [Pandas Transformations Practice](../../labs/pandas/02_pandas_transformations_practice.ipynb)
+- [Pandas Time And Text Practice](../../labs/pandas/03_pandas_time_text_practice.ipynb)
+
+## Final Takeaway
+
+Pandas is not just a library for tables.
+
+It is a thinking tool for turning messy inputs into reliable structure.
+
+That makes it foundational for data pipelines, feature work, evaluation slices, and AI system debugging.

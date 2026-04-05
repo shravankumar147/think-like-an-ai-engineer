@@ -144,9 +144,349 @@
     "href": "parts/part-1-python-foundations/02_python_execution_model.html#quick-sanity-test",
     "title": "3  Python Execution Model",
     "section": "3.2 Quick Sanity Test",
-    "text": "3.2 Quick Sanity Test\n\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n\nPython path: /Users/shravan/modern-ai-engineering/.venv/bin/python3\nNumPy version: 2.4.2",
+    "text": "3.2 Quick Sanity Test\n\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n\nPython path: /Users/shravan/Documents/think-like-an-ai-engineer/.venv/bin/python\nNumPy version: 2.4.2",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Python Execution Model</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html",
+    "title": "4  Pandas for AI Engineers",
+    "section": "",
+    "text": "5 Why Pandas Matters\nPandas is one of the core tools for working with tabular data in Python.\nFor AI engineers, pandas is rarely the final destination.\nIt is the layer where raw information becomes usable system input.\nThat means pandas work is usually about:\nThe official pandas getting-started guide organizes the learning path around those exact tasks, and this chapter follows that same progression in a book-friendly form.\nSource: pandas getting started",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#mental-model",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#mental-model",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.1 Mental Model",
+    "text": "5.1 Mental Model\nIn pandas, the main abstraction is the DataFrame.\nYou can think of it as:\n\na table with named columns\nan index that identifies rows\nvectorized operations over whole columns\na bridge between raw files and analytical or modeling code\n\nThe key shift is to stop thinking row by row.\nMost good pandas code works column-wise and table-wise.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-and-inspecting-tables",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-and-inspecting-tables",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.2 1. Creating And Inspecting Tables",
+    "text": "5.2 1. Creating And Inspecting Tables\nStart with small, explicit tables so you can see the abstraction clearly.\n\nimport pandas as pd\n\ncustomers = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 103, 104],\n        \"plan\": [\"free\", \"pro\", \"team\", \"pro\"],\n        \"monthly_spend\": [0, 29, 99, 29],\n        \"active\": [True, True, False, True],\n    }\n)\n\ncustomers\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\nactive\n\n\n\n\n0\n101\nfree\n0\nTrue\n\n\n1\n102\npro\n29\nTrue\n\n\n2\n103\nteam\n99\nFalse\n\n\n3\n104\npro\n29\nTrue\n\n\n\n\n\n\n\nUseful first questions:\n\nWhat are the column names?\nHow many rows and columns are present?\nWhat data types did pandas infer?\nAre there missing values?\n\n\ncustomers.shape\n\n(4, 4)\n\n\n\ncustomers.dtypes\n\ncustomer_id      int64\nplan               str\nmonthly_spend    int64\nactive            bool\ndtype: object\n\n\n\ncustomers.info()\n\n&lt;class 'pandas.DataFrame'&gt;\nRangeIndex: 4 entries, 0 to 3\nData columns (total 4 columns):\n #   Column         Non-Null Count  Dtype\n---  ------         --------------  -----\n 0   customer_id    4 non-null      int64\n 1   plan           4 non-null      str  \n 2   monthly_spend  4 non-null      int64\n 3   active         4 non-null      bool \ndtypes: bool(1), int64(2), str(1)\nmemory usage: 232.0 bytes",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reading-and-writing-data",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reading-and-writing-data",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.3 2. Reading And Writing Data",
+    "text": "5.3 2. Reading And Writing Data\nThe pandas docs emphasize read_* functions and to_* methods as the main I/O interface.\nThat is a strong pattern to internalize:\n\ninput usually starts with pd.read_*\noutput usually ends with .to_*()\n\nCommon examples include:\n\npd.read_csv(...)\npd.read_json(...)\npd.read_parquet(...)\ndf.to_csv(...)\n\nFor this repo, the most common beginner workflow will likely be CSV-based.\n\nfrom io import StringIO\n\nevents = pd.DataFrame(\n    {\n        \"event_id\": [1, 2, 3],\n        \"event_type\": [\"click\", \"purchase\", \"click\"],\n        \"value\": [0.0, 120.0, 0.0],\n    }\n)\n\nbuffer = StringIO()\nevents.to_csv(buffer, index=False)\nbuffer.seek(0)\nloaded = pd.read_csv(buffer)\nloaded\n\n\n\n\n\n\n\n\nevent_id\nevent_type\nvalue\n\n\n\n\n0\n1\nclick\n0.0\n\n\n1\n2\npurchase\n120.0\n\n\n2\n3\nclick\n0.0",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#selecting-subsets",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#selecting-subsets",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.4 3. Selecting Subsets",
+    "text": "5.4 3. Selecting Subsets\nSelection is one of the first places where pandas becomes expressive.\n\ncustomers[\"plan\"]\n\n0    free\n1     pro\n2    team\n3     pro\nName: plan, dtype: str\n\n\n\ncustomers[[\"customer_id\", \"monthly_spend\"]]\n\n\n\n\n\n\n\n\ncustomer_id\nmonthly_spend\n\n\n\n\n0\n101\n0\n\n\n1\n102\n29\n\n\n2\n103\n99\n\n\n3\n104\n29\n\n\n\n\n\n\n\n\ncustomers.loc[customers[\"monthly_spend\"] &gt; 0, [\"customer_id\", \"plan\", \"monthly_spend\"]]\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\n\n\n\n\n1\n102\npro\n29\n\n\n2\n103\nteam\n99\n\n\n3\n104\npro\n29\n\n\n\n\n\n\n\nUse these patterns often:\n\ndf[\"col\"] for one column\ndf[[\"a\", \"b\"]] for multiple columns\ndf.loc[row_filter, columns] for label-based selection\ndf.iloc[...] for position-based selection",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-derived-columns",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-derived-columns",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.5 4. Creating Derived Columns",
+    "text": "5.5 4. Creating Derived Columns\nThe official tutorial highlights derived columns because they are central to feature engineering.\n\ncustomers[\"annualized_spend\"] = customers[\"monthly_spend\"] * 12\ncustomers[\"is_paid\"] = customers[\"monthly_spend\"] &gt; 0\n\ncustomers\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\nactive\nannualized_spend\nis_paid\n\n\n\n\n0\n101\nfree\n0\nTrue\n0\nFalse\n\n\n1\n102\npro\n29\nTrue\n348\nTrue\n\n\n2\n103\nteam\n99\nFalse\n1188\nTrue\n\n\n3\n104\npro\n29\nTrue\n348\nTrue\n\n\n\n\n\n\n\nThis matters for AI work because features are often transformations, not raw inputs.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#summary-statistics-and-grouped-analysis",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#summary-statistics-and-grouped-analysis",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.6 5. Summary Statistics And Grouped Analysis",
+    "text": "5.6 5. Summary Statistics And Grouped Analysis\nBefore training or evaluating anything, summarize the data.\n\ncustomers[\"monthly_spend\"].describe()\n\ncount     4.000000\nmean     39.250000\nstd      42.113933\nmin       0.000000\n25%      21.750000\n50%      29.000000\n75%      46.500000\nmax      99.000000\nName: monthly_spend, dtype: float64\n\n\n\ncustomers.groupby(\"plan\")[\"monthly_spend\"].agg([\"count\", \"mean\", \"max\"])\n\n\n\n\n\n\n\n\ncount\nmean\nmax\n\n\nplan\n\n\n\n\n\n\n\nfree\n1\n0.0\n0\n\n\npro\n2\n29.0\n29\n\n\nteam\n1\n99.0\n99\n\n\n\n\n\n\n\ngroupby is one of the most important pandas tools because it turns raw tables into behavioral summaries.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reshaping-tables",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reshaping-tables",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.7 6. Reshaping Tables",
+    "text": "5.7 6. Reshaping Tables\nReal systems often receive data in awkward formats.\nPandas gives you tools to reshape tables for analysis or modeling.\n\nmetrics = pd.DataFrame(\n    {\n        \"model\": [\"baseline\", \"baseline\", \"tuned\", \"tuned\"],\n        \"metric\": [\"accuracy\", \"f1\", \"accuracy\", \"f1\"],\n        \"score\": [0.81, 0.77, 0.86, 0.83],\n    }\n)\n\nmetrics\n\n\n\n\n\n\n\n\nmodel\nmetric\nscore\n\n\n\n\n0\nbaseline\naccuracy\n0.81\n\n\n1\nbaseline\nf1\n0.77\n\n\n2\ntuned\naccuracy\n0.86\n\n\n3\ntuned\nf1\n0.83\n\n\n\n\n\n\n\n\nmetrics.pivot(index=\"model\", columns=\"metric\", values=\"score\")\n\n\n\n\n\n\n\nmetric\naccuracy\nf1\n\n\nmodel\n\n\n\n\n\n\nbaseline\n0.81\n0.77\n\n\ntuned\n0.86\n0.83",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#combining-tables",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#combining-tables",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.8 7. Combining Tables",
+    "text": "5.8 7. Combining Tables\nData rarely lives in one clean table.\nYou often need to join metadata, transactions, labels, or model outputs.\n\nprofiles = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 103, 104],\n        \"region\": [\"US\", \"IN\", \"US\", \"DE\"],\n    }\n)\n\nspend = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 104],\n        \"monthly_spend\": [0, 29, 29],\n    }\n)\n\nprofiles.merge(spend, on=\"customer_id\", how=\"left\")\n\n\n\n\n\n\n\n\ncustomer_id\nregion\nmonthly_spend\n\n\n\n\n0\n101\nUS\n0.0\n\n\n1\n102\nIN\n29.0\n\n\n2\n103\nUS\nNaN\n\n\n3\n104\nDE\n29.0\n\n\n\n\n\n\n\nThe default mental model:\n\nuse merge for database-style joins\nuse concat to stack tables by rows or columns",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#time-series-basics",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#time-series-basics",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.9 8. Time Series Basics",
+    "text": "5.9 8. Time Series Basics\nTime is everywhere in AI systems:\n\nlogs\nevents\nmonitoring\nfeature histories\nforecasting inputs\n\n\ntraffic = pd.DataFrame(\n    {\n        \"timestamp\": pd.to_datetime(\n            [\n                \"2026-01-01 09:00:00\",\n                \"2026-01-01 10:00:00\",\n                \"2026-01-01 11:00:00\",\n            ]\n        ),\n        \"requests\": [120, 135, 150],\n    }\n)\n\ntraffic[\"hour\"] = traffic[\"timestamp\"].dt.hour\ntraffic\n\n\n\n\n\n\n\n\ntimestamp\nrequests\nhour\n\n\n\n\n0\n2026-01-01 09:00:00\n120\n9\n\n\n1\n2026-01-01 10:00:00\n135\n10\n\n\n2\n2026-01-01 11:00:00\n150\n11\n\n\n\n\n\n\n\nOnce a column is datetime-aware, pandas gives you rich .dt accessors for extracting useful temporal features.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#text-handling-basics",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#text-handling-basics",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.10 9. Text Handling Basics",
+    "text": "5.10 9. Text Handling Basics\nText cleaning is another common preprocessing step.\n\nreviews = pd.DataFrame(\n    {\n        \"review\": [\n            \"Great product!\",\n            \"delivery delayed\",\n            \"Works well for small teams\",\n        ]\n    }\n)\n\nreviews[\"review_lower\"] = reviews[\"review\"].str.lower()\nreviews[\"contains_delivery\"] = reviews[\"review_lower\"].str.contains(\"delivery\")\nreviews\n\n\n\n\n\n\n\n\nreview\nreview_lower\ncontains_delivery\n\n\n\n\n0\nGreat product!\ngreat product!\nFalse\n\n\n1\ndelivery delayed\ndelivery delayed\nTrue\n\n\n2\nWorks well for small teams\nworks well for small teams\nFalse\n\n\n\n\n\n\n\nThe .str accessor makes string operations feel vectorized, just like numeric column operations.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#plotting-for-fast-inspection",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#plotting-for-fast-inspection",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.11 10. Plotting For Fast Inspection",
+    "text": "5.11 10. Plotting For Fast Inspection\nThe pandas getting-started guide includes plotting early because plots are useful for quick feedback loops.\n\nsales = pd.DataFrame(\n    {\n        \"month\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\"],\n        \"revenue\": [10, 12, 15, 18],\n    }\n)\n\nsales.plot(x=\"month\", y=\"revenue\", kind=\"bar\", title=\"Monthly Revenue\");\n\n\n\n\n\n\n\n\nFor serious visualization work, teams often move to Matplotlib, Seaborn, or Plotly.\nBut pandas plotting is perfect for fast inspection.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#common-beginner-mistakes",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#common-beginner-mistakes",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.12 Common Beginner Mistakes",
+    "text": "5.12 Common Beginner Mistakes\n\nWriting row-by-row loops when vectorized column operations would be simpler\nForgetting to inspect dtypes before debugging results\nUsing chained indexing instead of clear loc selection\nMerging tables without first checking key uniqueness\nTreating missing values as a cosmetic issue instead of a data contract issue",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#suggested-learning-path",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#suggested-learning-path",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.13 Suggested Learning Path",
+    "text": "5.13 Suggested Learning Path\nIf you want to learn pandas deeply, practice in this order:\n\nCreate and inspect DataFrame objects\nLoad and save CSV data\nFilter rows and choose columns with loc\nAdd derived columns\nUse groupby and aggregations\nReshape with pivot and melt\nJoin tables with merge\nWork with datetime and string columns",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#practice",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#practice",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.14 Practice",
+    "text": "5.14 Practice\nThe following notebooks are included in this repo as hands-on exercises:\n\nPandas Basics Practice\nPandas Transformations Practice\nPandas Time And Text Practice",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#final-takeaway",
+    "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#final-takeaway",
+    "title": "4  Pandas for AI Engineers",
+    "section": "5.15 Final Takeaway",
+    "text": "5.15 Final Takeaway\nPandas is not just a library for tables.\nIt is a thinking tool for turning messy inputs into reliable structure.\nThat makes it foundational for data pipelines, feature work, evaluation slices, and AI system debugging.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/01_pandas_basics_practice.html",
+    "href": "labs/pandas/01_pandas_basics_practice.html",
+    "title": "5  Pandas Basics Practice",
+    "section": "",
+    "text": "5.1 Exercise 1\nThis notebook focuses on DataFrame creation, inspection, selection, filtering, and derived columns.\nInspect the shape, column names, and dtypes of users.\n# TODO: Inspect the table in three different ways.\nnum_rows, num_cols = users.shape\ncolumn_names = users.columns.tolist()\ndata_types = users.____\n\nprint(\"shape:\", (num_rows, num_cols))\nprint(\"columns:\", column_names)\nprint(\"dtypes:\\n\", data_types)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-2",
+    "href": "labs/pandas/01_pandas_basics_practice.html#exercise-2",
+    "title": "5  Pandas Basics Practice",
+    "section": "5.2 Exercise 2",
+    "text": "5.2 Exercise 2\nSelect only the user_id, plan, and revenue columns.\n\n# TODO: Keep only the three requested columns.\nselected_columns = [\"user_id\", \"____\", \"revenue\"]\nusers_subset = users[__________]\nusers_subset",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-3",
+    "href": "labs/pandas/01_pandas_basics_practice.html#exercise-3",
+    "title": "5  Pandas Basics Practice",
+    "section": "5.3 Exercise 3",
+    "text": "5.3 Exercise 3\nFilter the rows for paid users only. A paid user has revenue greater than 0.\n\n# TODO: Build a boolean mask, then use it to filter the rows.\npaid_mask = users[\"revenue\"] ____ 0\npaid_users = users[paid_mask]\npaid_users",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-4",
+    "href": "labs/pandas/01_pandas_basics_practice.html#exercise-4",
+    "title": "5  Pandas Basics Practice",
+    "section": "5.4 Exercise 4",
+    "text": "5.4 Exercise 4\nCreate a new boolean column called is_power_user for users with at least 10 sessions.\n\n# TODO: Complete the comparison that defines a power user.\nusers[\"is_power_user\"] = users[\"sessions\"] &gt;= ____\nusers",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-5",
+    "href": "labs/pandas/01_pandas_basics_practice.html#exercise-5",
+    "title": "5  Pandas Basics Practice",
+    "section": "5.5 Exercise 5",
+    "text": "5.5 Exercise 5\nCreate a new column called annual_revenue equal to revenue * 12.\n\n# TODO: Create annual revenue from the monthly revenue column.\nusers[\"annual_revenue\"] = users[\"revenue\"] * ____\nusers",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/01_pandas_basics_practice.html#reflection",
+    "href": "labs/pandas/01_pandas_basics_practice.html#reflection",
+    "title": "5  Pandas Basics Practice",
+    "section": "5.6 Reflection",
+    "text": "5.6 Reflection\nWhich of these operations felt natural, and which required more deliberate thinking?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/02_pandas_transformations_practice.html",
+    "href": "labs/pandas/02_pandas_transformations_practice.html",
+    "title": "6  Pandas Transformations Practice",
+    "section": "",
+    "text": "6.1 Exercise 1\nThis notebook focuses on grouping, aggregation, reshaping, and joining tables.\nCompute the total amount by category.\n# TODO: Group by category and sum the amount column.\nrevenue_by_category = orders.groupby(\"____\")[\"amount\"].____()\nrevenue_by_category",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-2",
+    "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-2",
+    "title": "6  Pandas Transformations Practice",
+    "section": "6.2 Exercise 2",
+    "text": "6.2 Exercise 2\nCompute count, mean, and max amount by channel.\n\n# TODO: Aggregate the amount column with count, mean, and max.\nchannel_summary = orders.groupby(\"channel\")[\"amount\"].agg([\"____\", \"____\", \"____\"])\nchannel_summary",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-3",
+    "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-3",
+    "title": "6  Pandas Transformations Practice",
+    "section": "6.3 Exercise 3",
+    "text": "6.3 Exercise 3\nCreate a pivot table with channel as rows, category as columns, and the sum of amount as values.\n\n# TODO: Fill in the pivot arguments.\npivoted = orders.pivot_table(\n    index=\"____\",\n    columns=\"____\",\n    values=\"____\",\n    aggfunc=\"sum\",\n)\npivoted",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-4",
+    "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-4",
+    "title": "6  Pandas Transformations Practice",
+    "section": "6.4 Exercise 4",
+    "text": "6.4 Exercise 4\nMerge orders with customers using customer_id.\n\n# TODO: Merge the two tables on customer_id.\norders_with_customers = orders.merge(customers, on=\"___________\", how=\"left\")\norders_with_customers",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-5",
+    "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-5",
+    "title": "6  Pandas Transformations Practice",
+    "section": "6.5 Exercise 5",
+    "text": "6.5 Exercise 5\nAfter the merge, compute total revenue by segment.\n\n# TODO: Reuse the merged table and summarize amount by segment.\nsegment_revenue = orders_with_customers.groupby(\"____\")[\"amount\"].sum()\nsegment_revenue",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/02_pandas_transformations_practice.html#reflection",
+    "href": "labs/pandas/02_pandas_transformations_practice.html#reflection",
+    "title": "6  Pandas Transformations Practice",
+    "section": "6.6 Reflection",
+    "text": "6.6 Reflection\nWhich operation feels closest to SQL, and which feels distinctively pandas-native?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/03_pandas_time_text_practice.html",
+    "href": "labs/pandas/03_pandas_time_text_practice.html",
+    "title": "7  Pandas Time And Text Practice",
+    "section": "",
+    "text": "7.1 Exercise 1\nThis notebook focuses on datetime features, simple time-based summaries, and text cleanup.\nCreate date and hour columns from timestamp.\n# TODO: Extract both date and hour from the timestamp column.\nevents[\"date\"] = events[\"timestamp\"].dt.____\nevents[\"hour\"] = events[\"timestamp\"].dt.____\nevents",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-2",
+    "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-2",
+    "title": "7  Pandas Time And Text Practice",
+    "section": "7.2 Exercise 2",
+    "text": "7.2 Exercise 2\nCount how many events happened on each date.\n\n# TODO: Group by date and count the number of rows.\nevents_per_day = events.groupby(\"____\").size()\nevents_per_day",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-3",
+    "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-3",
+    "title": "7  Pandas Time And Text Practice",
+    "section": "7.3 Exercise 3",
+    "text": "7.3 Exercise 3\nCreate a lowercase version of message called message_clean.\n\n# TODO: Create a lowercase text column.\nevents[\"message_clean\"] = events[\"message\"].str.____()\nevents",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-4",
+    "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-4",
+    "title": "7  Pandas Time And Text Practice",
+    "section": "7.4 Exercise 4",
+    "text": "7.4 Exercise 4\nCreate a boolean column called mentions_help that is True when the cleaned message contains the word help.\n\n# TODO: Detect whether each cleaned message contains the word help.\nevents[\"mentions_help\"] = events[\"message_clean\"].str.contains(\"____\")\nevents",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-5",
+    "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-5",
+    "title": "7  Pandas Time And Text Practice",
+    "section": "7.5 Exercise 5",
+    "text": "7.5 Exercise 5\nFilter the rows where event_type is click.\n\n# TODO: Filter the table down to click events only.\nclick_events = events[events[\"event_type\"] == \"____\"]\nclick_events",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+    ]
+  },
+  {
+    "objectID": "labs/pandas/03_pandas_time_text_practice.html#reflection",
+    "href": "labs/pandas/03_pandas_time_text_practice.html#reflection",
+    "title": "7  Pandas Time And Text Practice",
+    "section": "7.6 Reflection",
+    "text": "7.6 Reflection\nHow would these datetime and text transformations support a downstream ML or analytics workflow?",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   }
 ]

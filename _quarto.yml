@@ -12,6 +12,10 @@ book:
     - index.qmd
     - parts/part-1-python-foundations/01_the_ai_engineer_mindset.qmd
     - parts/part-1-python-foundations/02_python_execution_model.qmd
+    - parts/part-1-python-foundations/03_pandas_for_ai_engineers.qmd
+    - labs/pandas/01_pandas_basics_practice.ipynb
+    - labs/pandas/02_pandas_transformations_practice.ipynb
+    - labs/pandas/03_pandas_time_text_practice.ipynb
 
 format:
 
