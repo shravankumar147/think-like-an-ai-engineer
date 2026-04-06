@@ -12,6 +12,10 @@ book:
     - index.qmd
     - parts/part-1-python-foundations/01_the_ai_engineer_mindset.qmd
     - parts/part-1-python-foundations/02_python_execution_model.qmd
+    - parts/part-1-python-foundations/04_numpy_for_ai_engineers.qmd
+    - labs/numpy/01_numpy_array_basics.ipynb
+    - labs/numpy/02_numpy_vectorized_operations.ipynb
+    - labs/numpy/03_numpy_shapes_and_aggregations.ipynb
     - parts/part-1-python-foundations/03_pandas_for_ai_engineers.qmd
     - labs/pandas/01_pandas_basics_practice.ipynb
     - labs/pandas/02_pandas_transformations_practice.ipynb

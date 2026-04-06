@@ -1,0 +1,303 @@
+---
+title: "NumPy for AI Engineers"
+---
+
+# Why NumPy Matters
+
+NumPy is the array engine underneath a large part of the Python AI ecosystem.
+
+Even when you spend most of your time in pandas, PyTorch, TensorFlow, or scikit-learn, NumPy shapes how you think about:
+
+- numerical data
+- vectorized computation
+- array shapes
+- memory layout
+- batch operations
+
+For AI engineers, NumPy is important because it teaches the mechanics behind efficient numerical code.
+
+This chapter follows the official NumPy beginner material and user guide, then reframes it for system-oriented learning.
+
+Sources:
+
+- [NumPy absolute beginners guide](https://numpy.org/doc/stable/user/absolute_beginners.html)
+- [NumPy user guide](https://numpy.org/doc/stable/user/index.html#user)
+
+## Mental Model
+
+The core NumPy abstraction is the `ndarray`.
+
+An `ndarray` is:
+
+- a homogeneous block of values
+- arranged in one or more dimensions
+- described by shape and dtype
+- designed for fast vectorized operations
+
+The most important shift is this:
+
+You do not want to think in Python loops first.
+
+You want to think in whole-array operations.
+
+## 1. Creating Arrays
+
+```{python}
+import numpy as np
+
+vector = np.array([1, 2, 3, 4])
+matrix = np.array([[1, 2], [3, 4], [5, 6]])
+
+vector, matrix
+```
+
+Common constructors from the NumPy beginner docs:
+
+- `np.array(...)`
+- `np.zeros(...)`
+- `np.ones(...)`
+- `np.arange(...)`
+- `np.linspace(...)`
+- `np.random.default_rng(...).random(...)`
+
+```{python}
+zeros = np.zeros((2, 3))
+ones = np.ones((2, 3))
+steps = np.arange(0, 10, 2)
+line = np.linspace(0, 1, 5)
+
+zeros, ones, steps, line
+```
+
+## 2. Shape, Dimension, And Dtype
+
+Every serious NumPy task starts with inspecting array metadata.
+
+```{python}
+data = np.array([[10, 20, 30], [40, 50, 60]])
+
+print("shape:", data.shape)
+print("ndim:", data.ndim)
+print("dtype:", data.dtype)
+print("size:", data.size)
+```
+
+These values matter because bugs in numerical code often come from:
+
+- unexpected shapes
+- wrong dimensionality
+- incompatible dtypes
+
+## 3. Indexing And Slicing
+
+NumPy indexing is the foundation for selecting features, batches, windows, and tensor-like slices.
+
+```{python}
+arr = np.array([[10, 20, 30], [40, 50, 60], [70, 80, 90]])
+
+arr[0, 1]
+```
+
+```{python}
+arr[:, 1]
+```
+
+```{python}
+arr[1:, :2]
+```
+
+The two key patterns are:
+
+- select along an axis
+- slice whole blocks without copying more than necessary
+
+## 4. Vectorized Operations
+
+This is where NumPy becomes powerful.
+
+```{python}
+x = np.array([1, 2, 3, 4])
+y = np.array([10, 20, 30, 40])
+
+x + y
+```
+
+```{python}
+x * 2
+```
+
+```{python}
+x ** 2
+```
+
+These operations happen elementwise.
+
+That makes them cleaner and usually much faster than manual Python loops.
+
+## 5. Broadcasting
+
+Broadcasting lets NumPy apply operations across arrays of compatible shapes.
+
+```{python}
+features = np.array(
+    [
+        [1.0, 10.0],
+        [2.0, 20.0],
+        [3.0, 30.0],
+    ]
+)
+
+scale = np.array([0.5, 2.0])
+
+features * scale
+```
+
+This is a foundational concept for AI work because the same mental model appears in tensor libraries everywhere.
+
+## 6. Aggregations
+
+Before modeling, summarize.
+
+```{python}
+scores = np.array([[0.81, 0.77, 0.79], [0.86, 0.83, 0.85]])
+
+print(scores.mean())
+print(scores.mean(axis=0))
+print(scores.max(axis=1))
+```
+
+Important aggregation functions include:
+
+- `sum`
+- `mean`
+- `min`
+- `max`
+- `std`
+- `argmax`
+
+The `axis` parameter is one of the most important details to understand deeply.
+
+## 7. Reshaping Arrays
+
+AI code constantly moves between different shapes:
+
+- flat vectors
+- matrices
+- batches
+- channel-first or channel-last tensors
+
+```{python}
+values = np.arange(12)
+grid = values.reshape(3, 4)
+
+values, grid
+```
+
+```{python}
+grid.flatten()
+```
+
+Reshaping is not just formatting.
+
+It is part of how you express the structure of the computation.
+
+## 8. Combining And Splitting Arrays
+
+```{python}
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[5, 6], [7, 8]])
+
+np.vstack([a, b])
+```
+
+```{python}
+np.hstack([a, b])
+```
+
+These operations are useful when building batches, assembling features, or preparing input blocks.
+
+## 9. Random Numbers And Reproducibility
+
+Randomness matters in simulation, sampling, initialization, and testing.
+
+```{python}
+rng = np.random.default_rng(seed=42)
+sample = rng.integers(0, 10, size=(2, 3))
+sample
+```
+
+Using an explicit generator is usually better than relying on global random state.
+
+## 10. Linear Algebra Intuition
+
+You do not need to master every NumPy linear algebra function on day one.
+
+But you should be comfortable with arrays as vectors and matrices.
+
+```{python}
+weights = np.array([0.2, 0.5, 0.3])
+features = np.array([3.0, 4.0, 5.0])
+
+np.dot(weights, features)
+```
+
+This kind of operation sits underneath a lot of machine learning code.
+
+## 11. Copies Vs Views
+
+This is one of the most practical NumPy ideas from the user guide.
+
+Some operations create views into the same underlying data.
+
+Others create copies.
+
+That distinction matters for:
+
+- memory usage
+- unexpected mutation
+- debugging tricky numerical pipelines
+
+```{python}
+original = np.array([1, 2, 3, 4])
+view = original[1:3]
+view[0] = 999
+
+original
+```
+
+If you do not understand views, array mutation can feel mysterious.
+
+## Common Beginner Mistakes
+
+- Writing loops where elementwise array operations would be clearer
+- Ignoring shape mismatches until broadcasting fails
+- Forgetting that some slices are views, not copies
+- Using arrays without checking dtype
+- Aggregating across the wrong axis
+
+## Suggested Learning Path
+
+1. Create arrays with `array`, `zeros`, `ones`, `arange`, and `linspace`
+2. Inspect `shape`, `ndim`, `dtype`, and `size`
+3. Practice indexing and slicing by axis
+4. Learn elementwise operations and broadcasting
+5. Use aggregations with explicit `axis`
+6. Reshape arrays intentionally
+7. Practice random generation and simple linear algebra
+8. Learn when NumPy returns views versus copies
+
+## Practice
+
+The following guided notebooks are included in this repo:
+
+- [NumPy Array Basics](../../labs/numpy/01_numpy_array_basics.ipynb)
+- [NumPy Vectorized Operations](../../labs/numpy/02_numpy_vectorized_operations.ipynb)
+- [NumPy Shapes And Aggregations](../../labs/numpy/03_numpy_shapes_and_aggregations.ipynb)
+
+## Final Takeaway
+
+NumPy teaches you how numerical computation is structured in Python.
+
+That makes it more than a utility library.
+
+It is part of the mental foundation for understanding features, tensors, batches, matrix operations, and efficient array-first thinking.

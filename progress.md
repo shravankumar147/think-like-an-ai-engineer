@@ -1,5 +1,18 @@
 # Progress Log
 
+## 2026-04-06
+
+### Book Navigation Ordering
+
+- Reordered `_quarto.yml` so the Pandas chapter is followed immediately by the Pandas practice notebooks.
+- Kept the NumPy chapter grouped with the NumPy practice notebooks after the Pandas section.
+- This makes the sidebar flow match the learning sequence more naturally.
+
+### Book Navigation Reordered Again
+
+- Updated `_quarto.yml` so the NumPy chapter and NumPy practice notebooks now come before the Pandas section.
+- Updated the part intro and `README.md` so the documented learning order matches the new book order.
+
 ## 2026-04-05
 
 ### Repository Understanding Baseline
@@ -43,3 +56,12 @@
 - Updated the pandas practice notebooks to use guided starter code instead of blank `# Your code here` cells.
 - Added partial expressions, variable scaffolds, and `TODO` prompts so the exercises feel more like fill-in-the-gap learning.
 - Documented the guided exercise style in `README.md`.
+
+### NumPy Tutorial Expansion
+
+- Added a new NumPy chapter at `parts/part-1-python-foundations/04_numpy_for_ai_engineers.qmd`.
+- Structured the chapter around the official NumPy absolute beginners guide and user guide.
+- Added three guided notebooks under `labs/numpy/` covering array basics, vectorized operations, and shapes with aggregations.
+- Updated `_quarto.yml` so the NumPy chapter and notebooks are part of the rendered book.
+- Updated `parts/part-1-python-foundations/_intro.qmd` to include NumPy in the part overview.
+- Updated `README.md` to document the new NumPy tutorial track.

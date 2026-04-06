@@ -150,343 +150,663 @@
     ]
   },
   {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html",
+    "title": "4  NumPy for AI Engineers",
+    "section": "",
+    "text": "5 Why NumPy Matters\nNumPy is the array engine underneath a large part of the Python AI ecosystem.\nEven when you spend most of your time in pandas, PyTorch, TensorFlow, or scikit-learn, NumPy shapes how you think about:\nFor AI engineers, NumPy is important because it teaches the mechanics behind efficient numerical code.\nThis chapter follows the official NumPy beginner material and user guide, then reframes it for system-oriented learning.\nSources:",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#mental-model",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#mental-model",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.1 Mental Model",
+    "text": "5.1 Mental Model\nThe core NumPy abstraction is the ndarray.\nAn ndarray is:\n\na homogeneous block of values\narranged in one or more dimensions\ndescribed by shape and dtype\ndesigned for fast vectorized operations\n\nThe most important shift is this:\nYou do not want to think in Python loops first.\nYou want to think in whole-array operations.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#creating-arrays",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#creating-arrays",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.2 1. Creating Arrays",
+    "text": "5.2 1. Creating Arrays\n\nimport numpy as np\n\nvector = np.array([1, 2, 3, 4])\nmatrix = np.array([[1, 2], [3, 4], [5, 6]])\n\nvector, matrix\n\n(array([1, 2, 3, 4]),\n array([[1, 2],\n        [3, 4],\n        [5, 6]]))\n\n\nCommon constructors from the NumPy beginner docs:\n\nnp.array(...)\nnp.zeros(...)\nnp.ones(...)\nnp.arange(...)\nnp.linspace(...)\nnp.random.default_rng(...).random(...)\n\n\nzeros = np.zeros((2, 3))\nones = np.ones((2, 3))\nsteps = np.arange(0, 10, 2)\nline = np.linspace(0, 1, 5)\n\nzeros, ones, steps, line\n\n(array([[0., 0., 0.],\n        [0., 0., 0.]]),\n array([[1., 1., 1.],\n        [1., 1., 1.]]),\n array([0, 2, 4, 6, 8]),\n array([0.  , 0.25, 0.5 , 0.75, 1.  ]))",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#shape-dimension-and-dtype",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#shape-dimension-and-dtype",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.3 2. Shape, Dimension, And Dtype",
+    "text": "5.3 2. Shape, Dimension, And Dtype\nEvery serious NumPy task starts with inspecting array metadata.\n\ndata = np.array([[10, 20, 30], [40, 50, 60]])\n\nprint(\"shape:\", data.shape)\nprint(\"ndim:\", data.ndim)\nprint(\"dtype:\", data.dtype)\nprint(\"size:\", data.size)\n\nshape: (2, 3)\nndim: 2\ndtype: int64\nsize: 6\n\n\nThese values matter because bugs in numerical code often come from:\n\nunexpected shapes\nwrong dimensionality\nincompatible dtypes",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#indexing-and-slicing",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#indexing-and-slicing",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.4 3. Indexing And Slicing",
+    "text": "5.4 3. Indexing And Slicing\nNumPy indexing is the foundation for selecting features, batches, windows, and tensor-like slices.\n\narr = np.array([[10, 20, 30], [40, 50, 60], [70, 80, 90]])\n\narr[0, 1]\n\nnp.int64(20)\n\n\n\narr[:, 1]\n\narray([20, 50, 80])\n\n\n\narr[1:, :2]\n\narray([[40, 50],\n       [70, 80]])\n\n\nThe two key patterns are:\n\nselect along an axis\nslice whole blocks without copying more than necessary",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#vectorized-operations",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#vectorized-operations",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.5 4. Vectorized Operations",
+    "text": "5.5 4. Vectorized Operations\nThis is where NumPy becomes powerful.\n\nx = np.array([1, 2, 3, 4])\ny = np.array([10, 20, 30, 40])\n\nx + y\n\narray([11, 22, 33, 44])\n\n\n\nx * 2\n\narray([2, 4, 6, 8])\n\n\n\nx ** 2\n\narray([ 1,  4,  9, 16])\n\n\nThese operations happen elementwise.\nThat makes them cleaner and usually much faster than manual Python loops.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#broadcasting",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#broadcasting",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.6 5. Broadcasting",
+    "text": "5.6 5. Broadcasting\nBroadcasting lets NumPy apply operations across arrays of compatible shapes.\n\nfeatures = np.array(\n    [\n        [1.0, 10.0],\n        [2.0, 20.0],\n        [3.0, 30.0],\n    ]\n)\n\nscale = np.array([0.5, 2.0])\n\nfeatures * scale\n\narray([[ 0.5, 20. ],\n       [ 1. , 40. ],\n       [ 1.5, 60. ]])\n\n\nThis is a foundational concept for AI work because the same mental model appears in tensor libraries everywhere.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#aggregations",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#aggregations",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.7 6. Aggregations",
+    "text": "5.7 6. Aggregations\nBefore modeling, summarize.\n\nscores = np.array([[0.81, 0.77, 0.79], [0.86, 0.83, 0.85]])\n\nprint(scores.mean())\nprint(scores.mean(axis=0))\nprint(scores.max(axis=1))\n\n0.8183333333333332\n[0.835 0.8   0.82 ]\n[0.81 0.86]\n\n\nImportant aggregation functions include:\n\nsum\nmean\nmin\nmax\nstd\nargmax\n\nThe axis parameter is one of the most important details to understand deeply.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#reshaping-arrays",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#reshaping-arrays",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.8 7. Reshaping Arrays",
+    "text": "5.8 7. Reshaping Arrays\nAI code constantly moves between different shapes:\n\nflat vectors\nmatrices\nbatches\nchannel-first or channel-last tensors\n\n\nvalues = np.arange(12)\ngrid = values.reshape(3, 4)\n\nvalues, grid\n\n(array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]),\n array([[ 0,  1,  2,  3],\n        [ 4,  5,  6,  7],\n        [ 8,  9, 10, 11]]))\n\n\n\ngrid.flatten()\n\narray([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])\n\n\nReshaping is not just formatting.\nIt is part of how you express the structure of the computation.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#combining-and-splitting-arrays",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#combining-and-splitting-arrays",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.9 8. Combining And Splitting Arrays",
+    "text": "5.9 8. Combining And Splitting Arrays\n\na = np.array([[1, 2], [3, 4]])\nb = np.array([[5, 6], [7, 8]])\n\nnp.vstack([a, b])\n\narray([[1, 2],\n       [3, 4],\n       [5, 6],\n       [7, 8]])\n\n\n\nnp.hstack([a, b])\n\narray([[1, 2, 5, 6],\n       [3, 4, 7, 8]])\n\n\nThese operations are useful when building batches, assembling features, or preparing input blocks.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#random-numbers-and-reproducibility",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#random-numbers-and-reproducibility",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.10 9. Random Numbers And Reproducibility",
+    "text": "5.10 9. Random Numbers And Reproducibility\nRandomness matters in simulation, sampling, initialization, and testing.\n\nrng = np.random.default_rng(seed=42)\nsample = rng.integers(0, 10, size=(2, 3))\nsample\n\narray([[0, 7, 6],\n       [4, 4, 8]])\n\n\nUsing an explicit generator is usually better than relying on global random state.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#linear-algebra-intuition",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#linear-algebra-intuition",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.11 10. Linear Algebra Intuition",
+    "text": "5.11 10. Linear Algebra Intuition\nYou do not need to master every NumPy linear algebra function on day one.\nBut you should be comfortable with arrays as vectors and matrices.\n\nweights = np.array([0.2, 0.5, 0.3])\nfeatures = np.array([3.0, 4.0, 5.0])\n\nnp.dot(weights, features)\n\nnp.float64(4.1)\n\n\nThis kind of operation sits underneath a lot of machine learning code.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#copies-vs-views",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#copies-vs-views",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.12 11. Copies Vs Views",
+    "text": "5.12 11. Copies Vs Views\nThis is one of the most practical NumPy ideas from the user guide.\nSome operations create views into the same underlying data.\nOthers create copies.\nThat distinction matters for:\n\nmemory usage\nunexpected mutation\ndebugging tricky numerical pipelines\n\n\noriginal = np.array([1, 2, 3, 4])\nview = original[1:3]\nview[0] = 999\n\noriginal\n\narray([  1, 999,   3,   4])\n\n\nIf you do not understand views, array mutation can feel mysterious.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#common-beginner-mistakes",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#common-beginner-mistakes",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.13 Common Beginner Mistakes",
+    "text": "5.13 Common Beginner Mistakes\n\nWriting loops where elementwise array operations would be clearer\nIgnoring shape mismatches until broadcasting fails\nForgetting that some slices are views, not copies\nUsing arrays without checking dtype\nAggregating across the wrong axis",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#suggested-learning-path",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#suggested-learning-path",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.14 Suggested Learning Path",
+    "text": "5.14 Suggested Learning Path\n\nCreate arrays with array, zeros, ones, arange, and linspace\nInspect shape, ndim, dtype, and size\nPractice indexing and slicing by axis\nLearn elementwise operations and broadcasting\nUse aggregations with explicit axis\nReshape arrays intentionally\nPractice random generation and simple linear algebra\nLearn when NumPy returns views versus copies",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#practice",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#practice",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.15 Practice",
+    "text": "5.15 Practice\nThe following guided notebooks are included in this repo:\n\nNumPy Array Basics\nNumPy Vectorized Operations\nNumPy Shapes And Aggregations",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#final-takeaway",
+    "href": "parts/part-1-python-foundations/04_numpy_for_ai_engineers.html#final-takeaway",
+    "title": "4  NumPy for AI Engineers",
+    "section": "5.16 Final Takeaway",
+    "text": "5.16 Final Takeaway\nNumPy teaches you how numerical computation is structured in Python.\nThat makes it more than a utility library.\nIt is part of the mental foundation for understanding features, tensors, batches, matrix operations, and efficient array-first thinking.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>NumPy for AI Engineers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/01_numpy_array_basics.html",
+    "href": "labs/numpy/01_numpy_array_basics.html",
+    "title": "5  NumPy Array Basics",
+    "section": "",
+    "text": "5.1 Exercise 1\nThis notebook focuses on creating arrays, inspecting shape and dtype, and basic indexing.\nInspect the array shape, number of dimensions, and dtype.\n# TODO: Inspect the main array properties.\narray_shape = sensor_readings.____\nnum_dimensions = sensor_readings.____\narray_dtype = sensor_readings.____\n\nprint(\"shape:\", array_shape)\nprint(\"ndim:\", num_dimensions)\nprint(\"dtype:\", array_dtype)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>NumPy Array Basics</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/01_numpy_array_basics.html#exercise-2",
+    "href": "labs/numpy/01_numpy_array_basics.html#exercise-2",
+    "title": "5  NumPy Array Basics",
+    "section": "5.2 Exercise 2",
+    "text": "5.2 Exercise 2\nCreate an array of zeros with shape (2, 4).\n\n# TODO: Create a zeros array with the requested shape.\nempty_batch = np.zeros((__, __))\nempty_batch",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>NumPy Array Basics</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/01_numpy_array_basics.html#exercise-3",
+    "href": "labs/numpy/01_numpy_array_basics.html#exercise-3",
+    "title": "5  NumPy Array Basics",
+    "section": "5.3 Exercise 3",
+    "text": "5.3 Exercise 3\nSelect the first row of sensor_readings.\n\n# TODO: Use NumPy indexing to take the first row.\nfirst_row = sensor_readings[__, :]\nfirst_row",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>NumPy Array Basics</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/01_numpy_array_basics.html#exercise-4",
+    "href": "labs/numpy/01_numpy_array_basics.html#exercise-4",
+    "title": "5  NumPy Array Basics",
+    "section": "5.4 Exercise 4",
+    "text": "5.4 Exercise 4\nSelect the second column across all rows.\n\n# TODO: Keep every row, but only the second column.\nsecond_column = sensor_readings[:, __]\nsecond_column",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>NumPy Array Basics</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/01_numpy_array_basics.html#exercise-5",
+    "href": "labs/numpy/01_numpy_array_basics.html#exercise-5",
+    "title": "5  NumPy Array Basics",
+    "section": "5.5 Exercise 5",
+    "text": "5.5 Exercise 5\nCreate the array np.arange(2, 12, 2).\n\n# TODO: Build an evenly spaced integer sequence.\nstep_values = np.arange(__, __, __)\nstep_values",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>NumPy Array Basics</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/02_numpy_vectorized_operations.html",
+    "href": "labs/numpy/02_numpy_vectorized_operations.html",
+    "title": "6  NumPy Vectorized Operations",
+    "section": "",
+    "text": "6.1 Exercise 1\nThis notebook focuses on elementwise math, broadcasting, and simple linear algebra.\nEstimate conversions by multiplying daily_users and conversion_rates elementwise.\n# TODO: Use elementwise multiplication.\nestimated_conversions = daily_users ____ conversion_rates\nestimated_conversions",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>NumPy Vectorized Operations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/02_numpy_vectorized_operations.html#exercise-2",
+    "href": "labs/numpy/02_numpy_vectorized_operations.html#exercise-2",
+    "title": "6  NumPy Vectorized Operations",
+    "section": "6.2 Exercise 2",
+    "text": "6.2 Exercise 2\nSquare the daily_users array.\n\n# TODO: Apply an elementwise power operation.\nusers_squared = daily_users __ 2\nusers_squared",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>NumPy Vectorized Operations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/02_numpy_vectorized_operations.html#exercise-3",
+    "href": "labs/numpy/02_numpy_vectorized_operations.html#exercise-3",
+    "title": "6  NumPy Vectorized Operations",
+    "section": "6.3 Exercise 3",
+    "text": "6.3 Exercise 3\nUse broadcasting to scale each column of feature_matrix by scale.\n\n# TODO: Multiply the matrix by the scale vector.\nscaled_features = feature_matrix ____ scale\nscaled_features",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>NumPy Vectorized Operations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/02_numpy_vectorized_operations.html#exercise-4",
+    "href": "labs/numpy/02_numpy_vectorized_operations.html#exercise-4",
+    "title": "6  NumPy Vectorized Operations",
+    "section": "6.4 Exercise 4",
+    "text": "6.4 Exercise 4\nCompute the dot product between weights and inputs.\n\nweights = np.array([0.2, 0.3, 0.5])\ninputs = np.array([5.0, 10.0, 2.0])\n\n# TODO: Use np.dot to combine the vectors.\nscore = np.dot(____, ____)\nscore",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>NumPy Vectorized Operations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/02_numpy_vectorized_operations.html#exercise-5",
+    "href": "labs/numpy/02_numpy_vectorized_operations.html#exercise-5",
+    "title": "6  NumPy Vectorized Operations",
+    "section": "6.5 Exercise 5",
+    "text": "6.5 Exercise 5\nCreate a random integer array with shape (2, 3) using a seeded generator.\n\n# TODO: Use the explicit generator pattern from modern NumPy.\nrng = np.random.default_rng(seed=____)\nrandom_batch = rng.integers(0, 10, size=(__, __))\nrandom_batch",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>NumPy Vectorized Operations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/03_numpy_shapes_and_aggregations.html",
+    "href": "labs/numpy/03_numpy_shapes_and_aggregations.html",
+    "title": "7  NumPy Shapes And Aggregations",
+    "section": "",
+    "text": "7.1 Exercise 1\nThis notebook focuses on reshape, flatten, axis-based summaries, and stacking.\nReshape values into a (3, 4) array.\n# TODO: Reshape the 1D array into a 3x4 grid.\ngrid = values.reshape(__, __)\ngrid",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>NumPy Shapes And Aggregations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-2",
+    "href": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-2",
+    "title": "7  NumPy Shapes And Aggregations",
+    "section": "7.2 Exercise 2",
+    "text": "7.2 Exercise 2\nFlatten the reshaped grid back into one dimension.\n\n# TODO: Convert the grid back to a flat array.\nflat_values = grid.____()\nflat_values",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>NumPy Shapes And Aggregations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-3",
+    "href": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-3",
+    "title": "7  NumPy Shapes And Aggregations",
+    "section": "7.3 Exercise 3",
+    "text": "7.3 Exercise 3\nCompute the mean score for each column of model_scores.\n\n# TODO: Aggregate across rows so one mean remains per column.\ncolumn_means = model_scores.mean(axis=__)\ncolumn_means",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>NumPy Shapes And Aggregations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-4",
+    "href": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-4",
+    "title": "7  NumPy Shapes And Aggregations",
+    "section": "7.4 Exercise 4",
+    "text": "7.4 Exercise 4\nCompute the maximum score within each row of model_scores.\n\n# TODO: Keep one maximum value per row.\nrow_maxima = model_scores.max(axis=__)\nrow_maxima",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>NumPy Shapes And Aggregations</span>"
+    ]
+  },
+  {
+    "objectID": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-5",
+    "href": "labs/numpy/03_numpy_shapes_and_aggregations.html#exercise-5",
+    "title": "7  NumPy Shapes And Aggregations",
+    "section": "7.5 Exercise 5",
+    "text": "7.5 Exercise 5\nStack left_block and right_block vertically.\n\n# TODO: Combine the blocks by rows.\ncombined = np.vstack([__________, __________])\ncombined",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>NumPy Shapes And Aggregations</span>"
+    ]
+  },
+  {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html",
-    "title": "4  Pandas for AI Engineers",
+    "title": "8  Pandas for AI Engineers",
     "section": "",
-    "text": "5 Why Pandas Matters\nPandas is one of the core tools for working with tabular data in Python.\nFor AI engineers, pandas is rarely the final destination.\nIt is the layer where raw information becomes usable system input.\nThat means pandas work is usually about:\nThe official pandas getting-started guide organizes the learning path around those exact tasks, and this chapter follows that same progression in a book-friendly form.\nSource: pandas getting started",
+    "text": "9 Why Pandas Matters\nPandas is one of the core tools for working with tabular data in Python.\nFor AI engineers, pandas is rarely the final destination.\nIt is the layer where raw information becomes usable system input.\nThat means pandas work is usually about:\nThe official pandas getting-started guide organizes the learning path around those exact tasks, and this chapter follows that same progression in a book-friendly form.\nSource: pandas getting started",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#mental-model",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#mental-model",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.1 Mental Model",
-    "text": "5.1 Mental Model\nIn pandas, the main abstraction is the DataFrame.\nYou can think of it as:\n\na table with named columns\nan index that identifies rows\nvectorized operations over whole columns\na bridge between raw files and analytical or modeling code\n\nThe key shift is to stop thinking row by row.\nMost good pandas code works column-wise and table-wise.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.1 Mental Model",
+    "text": "9.1 Mental Model\nIn pandas, the main abstraction is the DataFrame.\nYou can think of it as:\n\na table with named columns\nan index that identifies rows\nvectorized operations over whole columns\na bridge between raw files and analytical or modeling code\n\nThe key shift is to stop thinking row by row.\nMost good pandas code works column-wise and table-wise.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-and-inspecting-tables",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-and-inspecting-tables",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.2 1. Creating And Inspecting Tables",
-    "text": "5.2 1. Creating And Inspecting Tables\nStart with small, explicit tables so you can see the abstraction clearly.\n\nimport pandas as pd\n\ncustomers = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 103, 104],\n        \"plan\": [\"free\", \"pro\", \"team\", \"pro\"],\n        \"monthly_spend\": [0, 29, 99, 29],\n        \"active\": [True, True, False, True],\n    }\n)\n\ncustomers\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\nactive\n\n\n\n\n0\n101\nfree\n0\nTrue\n\n\n1\n102\npro\n29\nTrue\n\n\n2\n103\nteam\n99\nFalse\n\n\n3\n104\npro\n29\nTrue\n\n\n\n\n\n\n\nUseful first questions:\n\nWhat are the column names?\nHow many rows and columns are present?\nWhat data types did pandas infer?\nAre there missing values?\n\n\ncustomers.shape\n\n(4, 4)\n\n\n\ncustomers.dtypes\n\ncustomer_id      int64\nplan               str\nmonthly_spend    int64\nactive            bool\ndtype: object\n\n\n\ncustomers.info()\n\n&lt;class 'pandas.DataFrame'&gt;\nRangeIndex: 4 entries, 0 to 3\nData columns (total 4 columns):\n #   Column         Non-Null Count  Dtype\n---  ------         --------------  -----\n 0   customer_id    4 non-null      int64\n 1   plan           4 non-null      str  \n 2   monthly_spend  4 non-null      int64\n 3   active         4 non-null      bool \ndtypes: bool(1), int64(2), str(1)\nmemory usage: 232.0 bytes",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.2 1. Creating And Inspecting Tables",
+    "text": "9.2 1. Creating And Inspecting Tables\nStart with small, explicit tables so you can see the abstraction clearly.\n\nimport pandas as pd\n\ncustomers = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 103, 104],\n        \"plan\": [\"free\", \"pro\", \"team\", \"pro\"],\n        \"monthly_spend\": [0, 29, 99, 29],\n        \"active\": [True, True, False, True],\n    }\n)\n\ncustomers\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\nactive\n\n\n\n\n0\n101\nfree\n0\nTrue\n\n\n1\n102\npro\n29\nTrue\n\n\n2\n103\nteam\n99\nFalse\n\n\n3\n104\npro\n29\nTrue\n\n\n\n\n\n\n\nUseful first questions:\n\nWhat are the column names?\nHow many rows and columns are present?\nWhat data types did pandas infer?\nAre there missing values?\n\n\ncustomers.shape\n\n(4, 4)\n\n\n\ncustomers.dtypes\n\ncustomer_id      int64\nplan               str\nmonthly_spend    int64\nactive            bool\ndtype: object\n\n\n\ncustomers.info()\n\n&lt;class 'pandas.DataFrame'&gt;\nRangeIndex: 4 entries, 0 to 3\nData columns (total 4 columns):\n #   Column         Non-Null Count  Dtype\n---  ------         --------------  -----\n 0   customer_id    4 non-null      int64\n 1   plan           4 non-null      str  \n 2   monthly_spend  4 non-null      int64\n 3   active         4 non-null      bool \ndtypes: bool(1), int64(2), str(1)\nmemory usage: 232.0 bytes",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reading-and-writing-data",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reading-and-writing-data",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.3 2. Reading And Writing Data",
-    "text": "5.3 2. Reading And Writing Data\nThe pandas docs emphasize read_* functions and to_* methods as the main I/O interface.\nThat is a strong pattern to internalize:\n\ninput usually starts with pd.read_*\noutput usually ends with .to_*()\n\nCommon examples include:\n\npd.read_csv(...)\npd.read_json(...)\npd.read_parquet(...)\ndf.to_csv(...)\n\nFor this repo, the most common beginner workflow will likely be CSV-based.\n\nfrom io import StringIO\n\nevents = pd.DataFrame(\n    {\n        \"event_id\": [1, 2, 3],\n        \"event_type\": [\"click\", \"purchase\", \"click\"],\n        \"value\": [0.0, 120.0, 0.0],\n    }\n)\n\nbuffer = StringIO()\nevents.to_csv(buffer, index=False)\nbuffer.seek(0)\nloaded = pd.read_csv(buffer)\nloaded\n\n\n\n\n\n\n\n\nevent_id\nevent_type\nvalue\n\n\n\n\n0\n1\nclick\n0.0\n\n\n1\n2\npurchase\n120.0\n\n\n2\n3\nclick\n0.0",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.3 2. Reading And Writing Data",
+    "text": "9.3 2. Reading And Writing Data\nThe pandas docs emphasize read_* functions and to_* methods as the main I/O interface.\nThat is a strong pattern to internalize:\n\ninput usually starts with pd.read_*\noutput usually ends with .to_*()\n\nCommon examples include:\n\npd.read_csv(...)\npd.read_json(...)\npd.read_parquet(...)\ndf.to_csv(...)\n\nFor this repo, the most common beginner workflow will likely be CSV-based.\n\nfrom io import StringIO\n\nevents = pd.DataFrame(\n    {\n        \"event_id\": [1, 2, 3],\n        \"event_type\": [\"click\", \"purchase\", \"click\"],\n        \"value\": [0.0, 120.0, 0.0],\n    }\n)\n\nbuffer = StringIO()\nevents.to_csv(buffer, index=False)\nbuffer.seek(0)\nloaded = pd.read_csv(buffer)\nloaded\n\n\n\n\n\n\n\n\nevent_id\nevent_type\nvalue\n\n\n\n\n0\n1\nclick\n0.0\n\n\n1\n2\npurchase\n120.0\n\n\n2\n3\nclick\n0.0",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#selecting-subsets",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#selecting-subsets",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.4 3. Selecting Subsets",
-    "text": "5.4 3. Selecting Subsets\nSelection is one of the first places where pandas becomes expressive.\n\ncustomers[\"plan\"]\n\n0    free\n1     pro\n2    team\n3     pro\nName: plan, dtype: str\n\n\n\ncustomers[[\"customer_id\", \"monthly_spend\"]]\n\n\n\n\n\n\n\n\ncustomer_id\nmonthly_spend\n\n\n\n\n0\n101\n0\n\n\n1\n102\n29\n\n\n2\n103\n99\n\n\n3\n104\n29\n\n\n\n\n\n\n\n\ncustomers.loc[customers[\"monthly_spend\"] &gt; 0, [\"customer_id\", \"plan\", \"monthly_spend\"]]\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\n\n\n\n\n1\n102\npro\n29\n\n\n2\n103\nteam\n99\n\n\n3\n104\npro\n29\n\n\n\n\n\n\n\nUse these patterns often:\n\ndf[\"col\"] for one column\ndf[[\"a\", \"b\"]] for multiple columns\ndf.loc[row_filter, columns] for label-based selection\ndf.iloc[...] for position-based selection",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.4 3. Selecting Subsets",
+    "text": "9.4 3. Selecting Subsets\nSelection is one of the first places where pandas becomes expressive.\n\ncustomers[\"plan\"]\n\n0    free\n1     pro\n2    team\n3     pro\nName: plan, dtype: str\n\n\n\ncustomers[[\"customer_id\", \"monthly_spend\"]]\n\n\n\n\n\n\n\n\ncustomer_id\nmonthly_spend\n\n\n\n\n0\n101\n0\n\n\n1\n102\n29\n\n\n2\n103\n99\n\n\n3\n104\n29\n\n\n\n\n\n\n\n\ncustomers.loc[customers[\"monthly_spend\"] &gt; 0, [\"customer_id\", \"plan\", \"monthly_spend\"]]\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\n\n\n\n\n1\n102\npro\n29\n\n\n2\n103\nteam\n99\n\n\n3\n104\npro\n29\n\n\n\n\n\n\n\nUse these patterns often:\n\ndf[\"col\"] for one column\ndf[[\"a\", \"b\"]] for multiple columns\ndf.loc[row_filter, columns] for label-based selection\ndf.iloc[...] for position-based selection",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-derived-columns",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#creating-derived-columns",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.5 4. Creating Derived Columns",
-    "text": "5.5 4. Creating Derived Columns\nThe official tutorial highlights derived columns because they are central to feature engineering.\n\ncustomers[\"annualized_spend\"] = customers[\"monthly_spend\"] * 12\ncustomers[\"is_paid\"] = customers[\"monthly_spend\"] &gt; 0\n\ncustomers\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\nactive\nannualized_spend\nis_paid\n\n\n\n\n0\n101\nfree\n0\nTrue\n0\nFalse\n\n\n1\n102\npro\n29\nTrue\n348\nTrue\n\n\n2\n103\nteam\n99\nFalse\n1188\nTrue\n\n\n3\n104\npro\n29\nTrue\n348\nTrue\n\n\n\n\n\n\n\nThis matters for AI work because features are often transformations, not raw inputs.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.5 4. Creating Derived Columns",
+    "text": "9.5 4. Creating Derived Columns\nThe official tutorial highlights derived columns because they are central to feature engineering.\n\ncustomers[\"annualized_spend\"] = customers[\"monthly_spend\"] * 12\ncustomers[\"is_paid\"] = customers[\"monthly_spend\"] &gt; 0\n\ncustomers\n\n\n\n\n\n\n\n\ncustomer_id\nplan\nmonthly_spend\nactive\nannualized_spend\nis_paid\n\n\n\n\n0\n101\nfree\n0\nTrue\n0\nFalse\n\n\n1\n102\npro\n29\nTrue\n348\nTrue\n\n\n2\n103\nteam\n99\nFalse\n1188\nTrue\n\n\n3\n104\npro\n29\nTrue\n348\nTrue\n\n\n\n\n\n\n\nThis matters for AI work because features are often transformations, not raw inputs.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#summary-statistics-and-grouped-analysis",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#summary-statistics-and-grouped-analysis",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.6 5. Summary Statistics And Grouped Analysis",
-    "text": "5.6 5. Summary Statistics And Grouped Analysis\nBefore training or evaluating anything, summarize the data.\n\ncustomers[\"monthly_spend\"].describe()\n\ncount     4.000000\nmean     39.250000\nstd      42.113933\nmin       0.000000\n25%      21.750000\n50%      29.000000\n75%      46.500000\nmax      99.000000\nName: monthly_spend, dtype: float64\n\n\n\ncustomers.groupby(\"plan\")[\"monthly_spend\"].agg([\"count\", \"mean\", \"max\"])\n\n\n\n\n\n\n\n\ncount\nmean\nmax\n\n\nplan\n\n\n\n\n\n\n\nfree\n1\n0.0\n0\n\n\npro\n2\n29.0\n29\n\n\nteam\n1\n99.0\n99\n\n\n\n\n\n\n\ngroupby is one of the most important pandas tools because it turns raw tables into behavioral summaries.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.6 5. Summary Statistics And Grouped Analysis",
+    "text": "9.6 5. Summary Statistics And Grouped Analysis\nBefore training or evaluating anything, summarize the data.\n\ncustomers[\"monthly_spend\"].describe()\n\ncount     4.000000\nmean     39.250000\nstd      42.113933\nmin       0.000000\n25%      21.750000\n50%      29.000000\n75%      46.500000\nmax      99.000000\nName: monthly_spend, dtype: float64\n\n\n\ncustomers.groupby(\"plan\")[\"monthly_spend\"].agg([\"count\", \"mean\", \"max\"])\n\n\n\n\n\n\n\n\ncount\nmean\nmax\n\n\nplan\n\n\n\n\n\n\n\nfree\n1\n0.0\n0\n\n\npro\n2\n29.0\n29\n\n\nteam\n1\n99.0\n99\n\n\n\n\n\n\n\ngroupby is one of the most important pandas tools because it turns raw tables into behavioral summaries.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reshaping-tables",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#reshaping-tables",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.7 6. Reshaping Tables",
-    "text": "5.7 6. Reshaping Tables\nReal systems often receive data in awkward formats.\nPandas gives you tools to reshape tables for analysis or modeling.\n\nmetrics = pd.DataFrame(\n    {\n        \"model\": [\"baseline\", \"baseline\", \"tuned\", \"tuned\"],\n        \"metric\": [\"accuracy\", \"f1\", \"accuracy\", \"f1\"],\n        \"score\": [0.81, 0.77, 0.86, 0.83],\n    }\n)\n\nmetrics\n\n\n\n\n\n\n\n\nmodel\nmetric\nscore\n\n\n\n\n0\nbaseline\naccuracy\n0.81\n\n\n1\nbaseline\nf1\n0.77\n\n\n2\ntuned\naccuracy\n0.86\n\n\n3\ntuned\nf1\n0.83\n\n\n\n\n\n\n\n\nmetrics.pivot(index=\"model\", columns=\"metric\", values=\"score\")\n\n\n\n\n\n\n\nmetric\naccuracy\nf1\n\n\nmodel\n\n\n\n\n\n\nbaseline\n0.81\n0.77\n\n\ntuned\n0.86\n0.83",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.7 6. Reshaping Tables",
+    "text": "9.7 6. Reshaping Tables\nReal systems often receive data in awkward formats.\nPandas gives you tools to reshape tables for analysis or modeling.\n\nmetrics = pd.DataFrame(\n    {\n        \"model\": [\"baseline\", \"baseline\", \"tuned\", \"tuned\"],\n        \"metric\": [\"accuracy\", \"f1\", \"accuracy\", \"f1\"],\n        \"score\": [0.81, 0.77, 0.86, 0.83],\n    }\n)\n\nmetrics\n\n\n\n\n\n\n\n\nmodel\nmetric\nscore\n\n\n\n\n0\nbaseline\naccuracy\n0.81\n\n\n1\nbaseline\nf1\n0.77\n\n\n2\ntuned\naccuracy\n0.86\n\n\n3\ntuned\nf1\n0.83\n\n\n\n\n\n\n\n\nmetrics.pivot(index=\"model\", columns=\"metric\", values=\"score\")\n\n\n\n\n\n\n\nmetric\naccuracy\nf1\n\n\nmodel\n\n\n\n\n\n\nbaseline\n0.81\n0.77\n\n\ntuned\n0.86\n0.83",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#combining-tables",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#combining-tables",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.8 7. Combining Tables",
-    "text": "5.8 7. Combining Tables\nData rarely lives in one clean table.\nYou often need to join metadata, transactions, labels, or model outputs.\n\nprofiles = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 103, 104],\n        \"region\": [\"US\", \"IN\", \"US\", \"DE\"],\n    }\n)\n\nspend = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 104],\n        \"monthly_spend\": [0, 29, 29],\n    }\n)\n\nprofiles.merge(spend, on=\"customer_id\", how=\"left\")\n\n\n\n\n\n\n\n\ncustomer_id\nregion\nmonthly_spend\n\n\n\n\n0\n101\nUS\n0.0\n\n\n1\n102\nIN\n29.0\n\n\n2\n103\nUS\nNaN\n\n\n3\n104\nDE\n29.0\n\n\n\n\n\n\n\nThe default mental model:\n\nuse merge for database-style joins\nuse concat to stack tables by rows or columns",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.8 7. Combining Tables",
+    "text": "9.8 7. Combining Tables\nData rarely lives in one clean table.\nYou often need to join metadata, transactions, labels, or model outputs.\n\nprofiles = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 103, 104],\n        \"region\": [\"US\", \"IN\", \"US\", \"DE\"],\n    }\n)\n\nspend = pd.DataFrame(\n    {\n        \"customer_id\": [101, 102, 104],\n        \"monthly_spend\": [0, 29, 29],\n    }\n)\n\nprofiles.merge(spend, on=\"customer_id\", how=\"left\")\n\n\n\n\n\n\n\n\ncustomer_id\nregion\nmonthly_spend\n\n\n\n\n0\n101\nUS\n0.0\n\n\n1\n102\nIN\n29.0\n\n\n2\n103\nUS\nNaN\n\n\n3\n104\nDE\n29.0\n\n\n\n\n\n\n\nThe default mental model:\n\nuse merge for database-style joins\nuse concat to stack tables by rows or columns",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#time-series-basics",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#time-series-basics",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.9 8. Time Series Basics",
-    "text": "5.9 8. Time Series Basics\nTime is everywhere in AI systems:\n\nlogs\nevents\nmonitoring\nfeature histories\nforecasting inputs\n\n\ntraffic = pd.DataFrame(\n    {\n        \"timestamp\": pd.to_datetime(\n            [\n                \"2026-01-01 09:00:00\",\n                \"2026-01-01 10:00:00\",\n                \"2026-01-01 11:00:00\",\n            ]\n        ),\n        \"requests\": [120, 135, 150],\n    }\n)\n\ntraffic[\"hour\"] = traffic[\"timestamp\"].dt.hour\ntraffic\n\n\n\n\n\n\n\n\ntimestamp\nrequests\nhour\n\n\n\n\n0\n2026-01-01 09:00:00\n120\n9\n\n\n1\n2026-01-01 10:00:00\n135\n10\n\n\n2\n2026-01-01 11:00:00\n150\n11\n\n\n\n\n\n\n\nOnce a column is datetime-aware, pandas gives you rich .dt accessors for extracting useful temporal features.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.9 8. Time Series Basics",
+    "text": "9.9 8. Time Series Basics\nTime is everywhere in AI systems:\n\nlogs\nevents\nmonitoring\nfeature histories\nforecasting inputs\n\n\ntraffic = pd.DataFrame(\n    {\n        \"timestamp\": pd.to_datetime(\n            [\n                \"2026-01-01 09:00:00\",\n                \"2026-01-01 10:00:00\",\n                \"2026-01-01 11:00:00\",\n            ]\n        ),\n        \"requests\": [120, 135, 150],\n    }\n)\n\ntraffic[\"hour\"] = traffic[\"timestamp\"].dt.hour\ntraffic\n\n\n\n\n\n\n\n\ntimestamp\nrequests\nhour\n\n\n\n\n0\n2026-01-01 09:00:00\n120\n9\n\n\n1\n2026-01-01 10:00:00\n135\n10\n\n\n2\n2026-01-01 11:00:00\n150\n11\n\n\n\n\n\n\n\nOnce a column is datetime-aware, pandas gives you rich .dt accessors for extracting useful temporal features.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#text-handling-basics",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#text-handling-basics",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.10 9. Text Handling Basics",
-    "text": "5.10 9. Text Handling Basics\nText cleaning is another common preprocessing step.\n\nreviews = pd.DataFrame(\n    {\n        \"review\": [\n            \"Great product!\",\n            \"delivery delayed\",\n            \"Works well for small teams\",\n        ]\n    }\n)\n\nreviews[\"review_lower\"] = reviews[\"review\"].str.lower()\nreviews[\"contains_delivery\"] = reviews[\"review_lower\"].str.contains(\"delivery\")\nreviews\n\n\n\n\n\n\n\n\nreview\nreview_lower\ncontains_delivery\n\n\n\n\n0\nGreat product!\ngreat product!\nFalse\n\n\n1\ndelivery delayed\ndelivery delayed\nTrue\n\n\n2\nWorks well for small teams\nworks well for small teams\nFalse\n\n\n\n\n\n\n\nThe .str accessor makes string operations feel vectorized, just like numeric column operations.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.10 9. Text Handling Basics",
+    "text": "9.10 9. Text Handling Basics\nText cleaning is another common preprocessing step.\n\nreviews = pd.DataFrame(\n    {\n        \"review\": [\n            \"Great product!\",\n            \"delivery delayed\",\n            \"Works well for small teams\",\n        ]\n    }\n)\n\nreviews[\"review_lower\"] = reviews[\"review\"].str.lower()\nreviews[\"contains_delivery\"] = reviews[\"review_lower\"].str.contains(\"delivery\")\nreviews\n\n\n\n\n\n\n\n\nreview\nreview_lower\ncontains_delivery\n\n\n\n\n0\nGreat product!\ngreat product!\nFalse\n\n\n1\ndelivery delayed\ndelivery delayed\nTrue\n\n\n2\nWorks well for small teams\nworks well for small teams\nFalse\n\n\n\n\n\n\n\nThe .str accessor makes string operations feel vectorized, just like numeric column operations.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#plotting-for-fast-inspection",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#plotting-for-fast-inspection",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.11 10. Plotting For Fast Inspection",
-    "text": "5.11 10. Plotting For Fast Inspection\nThe pandas getting-started guide includes plotting early because plots are useful for quick feedback loops.\n\nsales = pd.DataFrame(\n    {\n        \"month\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\"],\n        \"revenue\": [10, 12, 15, 18],\n    }\n)\n\nsales.plot(x=\"month\", y=\"revenue\", kind=\"bar\", title=\"Monthly Revenue\");\n\n\n\n\n\n\n\n\nFor serious visualization work, teams often move to Matplotlib, Seaborn, or Plotly.\nBut pandas plotting is perfect for fast inspection.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.11 10. Plotting For Fast Inspection",
+    "text": "9.11 10. Plotting For Fast Inspection\nThe pandas getting-started guide includes plotting early because plots are useful for quick feedback loops.\n\nsales = pd.DataFrame(\n    {\n        \"month\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\"],\n        \"revenue\": [10, 12, 15, 18],\n    }\n)\n\nsales.plot(x=\"month\", y=\"revenue\", kind=\"bar\", title=\"Monthly Revenue\");\n\n\n\n\n\n\n\n\nFor serious visualization work, teams often move to Matplotlib, Seaborn, or Plotly.\nBut pandas plotting is perfect for fast inspection.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#common-beginner-mistakes",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#common-beginner-mistakes",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.12 Common Beginner Mistakes",
-    "text": "5.12 Common Beginner Mistakes\n\nWriting row-by-row loops when vectorized column operations would be simpler\nForgetting to inspect dtypes before debugging results\nUsing chained indexing instead of clear loc selection\nMerging tables without first checking key uniqueness\nTreating missing values as a cosmetic issue instead of a data contract issue",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.12 Common Beginner Mistakes",
+    "text": "9.12 Common Beginner Mistakes\n\nWriting row-by-row loops when vectorized column operations would be simpler\nForgetting to inspect dtypes before debugging results\nUsing chained indexing instead of clear loc selection\nMerging tables without first checking key uniqueness\nTreating missing values as a cosmetic issue instead of a data contract issue",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#suggested-learning-path",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#suggested-learning-path",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.13 Suggested Learning Path",
-    "text": "5.13 Suggested Learning Path\nIf you want to learn pandas deeply, practice in this order:\n\nCreate and inspect DataFrame objects\nLoad and save CSV data\nFilter rows and choose columns with loc\nAdd derived columns\nUse groupby and aggregations\nReshape with pivot and melt\nJoin tables with merge\nWork with datetime and string columns",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.13 Suggested Learning Path",
+    "text": "9.13 Suggested Learning Path\nIf you want to learn pandas deeply, practice in this order:\n\nCreate and inspect DataFrame objects\nLoad and save CSV data\nFilter rows and choose columns with loc\nAdd derived columns\nUse groupby and aggregations\nReshape with pivot and melt\nJoin tables with merge\nWork with datetime and string columns",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#practice",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#practice",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.14 Practice",
-    "text": "5.14 Practice\nThe following notebooks are included in this repo as hands-on exercises:\n\nPandas Basics Practice\nPandas Transformations Practice\nPandas Time And Text Practice",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.14 Practice",
+    "text": "9.14 Practice\nThe following notebooks are included in this repo as hands-on exercises:\n\nPandas Basics Practice\nPandas Transformations Practice\nPandas Time And Text Practice",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#final-takeaway",
     "href": "parts/part-1-python-foundations/03_pandas_for_ai_engineers.html#final-takeaway",
-    "title": "4  Pandas for AI Engineers",
-    "section": "5.15 Final Takeaway",
-    "text": "5.15 Final Takeaway\nPandas is not just a library for tables.\nIt is a thinking tool for turning messy inputs into reliable structure.\nThat makes it foundational for data pipelines, feature work, evaluation slices, and AI system debugging.",
+    "title": "8  Pandas for AI Engineers",
+    "section": "9.15 Final Takeaway",
+    "text": "9.15 Final Takeaway\nPandas is not just a library for tables.\nIt is a thinking tool for turning messy inputs into reliable structure.\nThat makes it foundational for data pipelines, feature work, evaluation slices, and AI system debugging.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Pandas for AI Engineers</span>"
     ]
   },
   {
     "objectID": "labs/pandas/01_pandas_basics_practice.html",
     "href": "labs/pandas/01_pandas_basics_practice.html",
-    "title": "5  Pandas Basics Practice",
+    "title": "9  Pandas Basics Practice",
     "section": "",
-    "text": "5.1 Exercise 1\nThis notebook focuses on DataFrame creation, inspection, selection, filtering, and derived columns.\nInspect the shape, column names, and dtypes of users.\n# TODO: Inspect the table in three different ways.\nnum_rows, num_cols = users.shape\ncolumn_names = users.columns.tolist()\ndata_types = users.____\n\nprint(\"shape:\", (num_rows, num_cols))\nprint(\"columns:\", column_names)\nprint(\"dtypes:\\n\", data_types)",
+    "text": "9.1 Exercise 1\nThis notebook focuses on DataFrame creation, inspection, selection, filtering, and derived columns.\nInspect the shape, column names, and dtypes of users.\n# TODO: Inspect the table in three different ways.\nnum_rows, num_cols = users.shape\ncolumn_names = users.columns.tolist()\ndata_types = users.____\n\nprint(\"shape:\", (num_rows, num_cols))\nprint(\"columns:\", column_names)\nprint(\"dtypes:\\n\", data_types)",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-2",
     "href": "labs/pandas/01_pandas_basics_practice.html#exercise-2",
-    "title": "5  Pandas Basics Practice",
-    "section": "5.2 Exercise 2",
-    "text": "5.2 Exercise 2\nSelect only the user_id, plan, and revenue columns.\n\n# TODO: Keep only the three requested columns.\nselected_columns = [\"user_id\", \"____\", \"revenue\"]\nusers_subset = users[__________]\nusers_subset",
+    "title": "9  Pandas Basics Practice",
+    "section": "9.2 Exercise 2",
+    "text": "9.2 Exercise 2\nSelect only the user_id, plan, and revenue columns.\n\n# TODO: Keep only the three requested columns.\nselected_columns = [\"user_id\", \"____\", \"revenue\"]\nusers_subset = users[__________]\nusers_subset",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-3",
     "href": "labs/pandas/01_pandas_basics_practice.html#exercise-3",
-    "title": "5  Pandas Basics Practice",
-    "section": "5.3 Exercise 3",
-    "text": "5.3 Exercise 3\nFilter the rows for paid users only. A paid user has revenue greater than 0.\n\n# TODO: Build a boolean mask, then use it to filter the rows.\npaid_mask = users[\"revenue\"] ____ 0\npaid_users = users[paid_mask]\npaid_users",
+    "title": "9  Pandas Basics Practice",
+    "section": "9.3 Exercise 3",
+    "text": "9.3 Exercise 3\nFilter the rows for paid users only. A paid user has revenue greater than 0.\n\n# TODO: Build a boolean mask, then use it to filter the rows.\npaid_mask = users[\"revenue\"] ____ 0\npaid_users = users[paid_mask]\npaid_users",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-4",
     "href": "labs/pandas/01_pandas_basics_practice.html#exercise-4",
-    "title": "5  Pandas Basics Practice",
-    "section": "5.4 Exercise 4",
-    "text": "5.4 Exercise 4\nCreate a new boolean column called is_power_user for users with at least 10 sessions.\n\n# TODO: Complete the comparison that defines a power user.\nusers[\"is_power_user\"] = users[\"sessions\"] &gt;= ____\nusers",
+    "title": "9  Pandas Basics Practice",
+    "section": "9.4 Exercise 4",
+    "text": "9.4 Exercise 4\nCreate a new boolean column called is_power_user for users with at least 10 sessions.\n\n# TODO: Complete the comparison that defines a power user.\nusers[\"is_power_user\"] = users[\"sessions\"] &gt;= ____\nusers",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/01_pandas_basics_practice.html#exercise-5",
     "href": "labs/pandas/01_pandas_basics_practice.html#exercise-5",
-    "title": "5  Pandas Basics Practice",
-    "section": "5.5 Exercise 5",
-    "text": "5.5 Exercise 5\nCreate a new column called annual_revenue equal to revenue * 12.\n\n# TODO: Create annual revenue from the monthly revenue column.\nusers[\"annual_revenue\"] = users[\"revenue\"] * ____\nusers",
+    "title": "9  Pandas Basics Practice",
+    "section": "9.5 Exercise 5",
+    "text": "9.5 Exercise 5\nCreate a new column called annual_revenue equal to revenue * 12.\n\n# TODO: Create annual revenue from the monthly revenue column.\nusers[\"annual_revenue\"] = users[\"revenue\"] * ____\nusers",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/01_pandas_basics_practice.html#reflection",
     "href": "labs/pandas/01_pandas_basics_practice.html#reflection",
-    "title": "5  Pandas Basics Practice",
-    "section": "5.6 Reflection",
-    "text": "5.6 Reflection\nWhich of these operations felt natural, and which required more deliberate thinking?",
+    "title": "9  Pandas Basics Practice",
+    "section": "9.6 Reflection",
+    "text": "9.6 Reflection\nWhich of these operations felt natural, and which required more deliberate thinking?",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Pandas Basics Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/02_pandas_transformations_practice.html",
     "href": "labs/pandas/02_pandas_transformations_practice.html",
-    "title": "6  Pandas Transformations Practice",
+    "title": "10  Pandas Transformations Practice",
     "section": "",
-    "text": "6.1 Exercise 1\nThis notebook focuses on grouping, aggregation, reshaping, and joining tables.\nCompute the total amount by category.\n# TODO: Group by category and sum the amount column.\nrevenue_by_category = orders.groupby(\"____\")[\"amount\"].____()\nrevenue_by_category",
+    "text": "10.1 Exercise 1\nThis notebook focuses on grouping, aggregation, reshaping, and joining tables.\nCompute the total amount by category.\n# TODO: Group by category and sum the amount column.\nrevenue_by_category = orders.groupby(\"____\")[\"amount\"].____()\nrevenue_by_category",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-2",
     "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-2",
-    "title": "6  Pandas Transformations Practice",
-    "section": "6.2 Exercise 2",
-    "text": "6.2 Exercise 2\nCompute count, mean, and max amount by channel.\n\n# TODO: Aggregate the amount column with count, mean, and max.\nchannel_summary = orders.groupby(\"channel\")[\"amount\"].agg([\"____\", \"____\", \"____\"])\nchannel_summary",
+    "title": "10  Pandas Transformations Practice",
+    "section": "10.2 Exercise 2",
+    "text": "10.2 Exercise 2\nCompute count, mean, and max amount by channel.\n\n# TODO: Aggregate the amount column with count, mean, and max.\nchannel_summary = orders.groupby(\"channel\")[\"amount\"].agg([\"____\", \"____\", \"____\"])\nchannel_summary",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-3",
     "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-3",
-    "title": "6  Pandas Transformations Practice",
-    "section": "6.3 Exercise 3",
-    "text": "6.3 Exercise 3\nCreate a pivot table with channel as rows, category as columns, and the sum of amount as values.\n\n# TODO: Fill in the pivot arguments.\npivoted = orders.pivot_table(\n    index=\"____\",\n    columns=\"____\",\n    values=\"____\",\n    aggfunc=\"sum\",\n)\npivoted",
+    "title": "10  Pandas Transformations Practice",
+    "section": "10.3 Exercise 3",
+    "text": "10.3 Exercise 3\nCreate a pivot table with channel as rows, category as columns, and the sum of amount as values.\n\n# TODO: Fill in the pivot arguments.\npivoted = orders.pivot_table(\n    index=\"____\",\n    columns=\"____\",\n    values=\"____\",\n    aggfunc=\"sum\",\n)\npivoted",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-4",
     "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-4",
-    "title": "6  Pandas Transformations Practice",
-    "section": "6.4 Exercise 4",
-    "text": "6.4 Exercise 4\nMerge orders with customers using customer_id.\n\n# TODO: Merge the two tables on customer_id.\norders_with_customers = orders.merge(customers, on=\"___________\", how=\"left\")\norders_with_customers",
+    "title": "10  Pandas Transformations Practice",
+    "section": "10.4 Exercise 4",
+    "text": "10.4 Exercise 4\nMerge orders with customers using customer_id.\n\n# TODO: Merge the two tables on customer_id.\norders_with_customers = orders.merge(customers, on=\"___________\", how=\"left\")\norders_with_customers",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/02_pandas_transformations_practice.html#exercise-5",
     "href": "labs/pandas/02_pandas_transformations_practice.html#exercise-5",
-    "title": "6  Pandas Transformations Practice",
-    "section": "6.5 Exercise 5",
-    "text": "6.5 Exercise 5\nAfter the merge, compute total revenue by segment.\n\n# TODO: Reuse the merged table and summarize amount by segment.\nsegment_revenue = orders_with_customers.groupby(\"____\")[\"amount\"].sum()\nsegment_revenue",
+    "title": "10  Pandas Transformations Practice",
+    "section": "10.5 Exercise 5",
+    "text": "10.5 Exercise 5\nAfter the merge, compute total revenue by segment.\n\n# TODO: Reuse the merged table and summarize amount by segment.\nsegment_revenue = orders_with_customers.groupby(\"____\")[\"amount\"].sum()\nsegment_revenue",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/02_pandas_transformations_practice.html#reflection",
     "href": "labs/pandas/02_pandas_transformations_practice.html#reflection",
-    "title": "6  Pandas Transformations Practice",
-    "section": "6.6 Reflection",
-    "text": "6.6 Reflection\nWhich operation feels closest to SQL, and which feels distinctively pandas-native?",
+    "title": "10  Pandas Transformations Practice",
+    "section": "10.6 Reflection",
+    "text": "10.6 Reflection\nWhich operation feels closest to SQL, and which feels distinctively pandas-native?",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Pandas Transformations Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/03_pandas_time_text_practice.html",
     "href": "labs/pandas/03_pandas_time_text_practice.html",
-    "title": "7  Pandas Time And Text Practice",
+    "title": "11  Pandas Time And Text Practice",
     "section": "",
-    "text": "7.1 Exercise 1\nThis notebook focuses on datetime features, simple time-based summaries, and text cleanup.\nCreate date and hour columns from timestamp.\n# TODO: Extract both date and hour from the timestamp column.\nevents[\"date\"] = events[\"timestamp\"].dt.____\nevents[\"hour\"] = events[\"timestamp\"].dt.____\nevents",
+    "text": "11.1 Exercise 1\nThis notebook focuses on datetime features, simple time-based summaries, and text cleanup.\nCreate date and hour columns from timestamp.\n# TODO: Extract both date and hour from the timestamp column.\nevents[\"date\"] = events[\"timestamp\"].dt.____\nevents[\"hour\"] = events[\"timestamp\"].dt.____\nevents",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-2",
     "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-2",
-    "title": "7  Pandas Time And Text Practice",
-    "section": "7.2 Exercise 2",
-    "text": "7.2 Exercise 2\nCount how many events happened on each date.\n\n# TODO: Group by date and count the number of rows.\nevents_per_day = events.groupby(\"____\").size()\nevents_per_day",
+    "title": "11  Pandas Time And Text Practice",
+    "section": "11.2 Exercise 2",
+    "text": "11.2 Exercise 2\nCount how many events happened on each date.\n\n# TODO: Group by date and count the number of rows.\nevents_per_day = events.groupby(\"____\").size()\nevents_per_day",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-3",
     "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-3",
-    "title": "7  Pandas Time And Text Practice",
-    "section": "7.3 Exercise 3",
-    "text": "7.3 Exercise 3\nCreate a lowercase version of message called message_clean.\n\n# TODO: Create a lowercase text column.\nevents[\"message_clean\"] = events[\"message\"].str.____()\nevents",
+    "title": "11  Pandas Time And Text Practice",
+    "section": "11.3 Exercise 3",
+    "text": "11.3 Exercise 3\nCreate a lowercase version of message called message_clean.\n\n# TODO: Create a lowercase text column.\nevents[\"message_clean\"] = events[\"message\"].str.____()\nevents",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-4",
     "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-4",
-    "title": "7  Pandas Time And Text Practice",
-    "section": "7.4 Exercise 4",
-    "text": "7.4 Exercise 4\nCreate a boolean column called mentions_help that is True when the cleaned message contains the word help.\n\n# TODO: Detect whether each cleaned message contains the word help.\nevents[\"mentions_help\"] = events[\"message_clean\"].str.contains(\"____\")\nevents",
+    "title": "11  Pandas Time And Text Practice",
+    "section": "11.4 Exercise 4",
+    "text": "11.4 Exercise 4\nCreate a boolean column called mentions_help that is True when the cleaned message contains the word help.\n\n# TODO: Detect whether each cleaned message contains the word help.\nevents[\"mentions_help\"] = events[\"message_clean\"].str.contains(\"____\")\nevents",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/03_pandas_time_text_practice.html#exercise-5",
     "href": "labs/pandas/03_pandas_time_text_practice.html#exercise-5",
-    "title": "7  Pandas Time And Text Practice",
-    "section": "7.5 Exercise 5",
-    "text": "7.5 Exercise 5\nFilter the rows where event_type is click.\n\n# TODO: Filter the table down to click events only.\nclick_events = events[events[\"event_type\"] == \"____\"]\nclick_events",
+    "title": "11  Pandas Time And Text Practice",
+    "section": "11.5 Exercise 5",
+    "text": "11.5 Exercise 5\nFilter the rows where event_type is click.\n\n# TODO: Filter the table down to click events only.\nclick_events = events[events[\"event_type\"] == \"____\"]\nclick_events",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   },
   {
     "objectID": "labs/pandas/03_pandas_time_text_practice.html#reflection",
     "href": "labs/pandas/03_pandas_time_text_practice.html#reflection",
-    "title": "7  Pandas Time And Text Practice",
-    "section": "7.6 Reflection",
-    "text": "7.6 Reflection\nHow would these datetime and text transformations support a downstream ML or analytics workflow?",
+    "title": "11  Pandas Time And Text Practice",
+    "section": "11.6 Reflection",
+    "text": "11.6 Reflection\nHow would these datetime and text transformations support a downstream ML or analytics workflow?",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Pandas Time And Text Practice</span>"
     ]
   }
 ]

@@ -28,5 +28,6 @@ By the end of this part, you will:
 
 1. The AI Engineer Mindset  
 2. Python Execution Model  
-3. Pandas for AI Engineers  
-4. Practice Notebooks
+3. NumPy for AI Engineers  
+4. Pandas for AI Engineers  
+5. Guided Practice Notebooks

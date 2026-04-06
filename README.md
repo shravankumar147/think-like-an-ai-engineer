@@ -14,14 +14,28 @@ This repository contains a Quarto-based book project focused on AI engineering a
 
 - `index.qmd`: Book landing page
 - `parts/part-1-python-foundations/`: Active authored chapters currently included in the book
+- `labs/numpy/`: Practice notebooks for hands-on NumPy work
 - `labs/pandas/`: Practice notebooks for hands-on pandas work
 - `front-matter/`: Preface and roadmap scaffolding
 - `parts/part2_machine-learning/` to `parts/part6_production-ai/`: Planned future sections
 - `.github/workflows/deploy.yml`: CI/CD workflow for rendering and deployment
 
+## NumPy Tutorial Track
+
+The repo includes a NumPy learning track inspired by the official NumPy beginner and user-guide documentation:
+
+- `parts/part-1-python-foundations/04_numpy_for_ai_engineers.qmd`: Guided NumPy tutorial chapter
+- `labs/numpy/01_numpy_array_basics.ipynb`: Array creation, shape, dtype, and indexing practice
+- `labs/numpy/02_numpy_vectorized_operations.ipynb`: Vectorized math, broadcasting, and dot product practice
+- `labs/numpy/03_numpy_shapes_and_aggregations.ipynb`: Reshape, axis-based summaries, and stacking practice
+
+This material follows the official NumPy progression around array creation, indexing, vectorized computation, broadcasting, aggregation, reshaping, randomness, and basic linear algebra.
+
+The practice notebooks use guided starter code rather than blank exercise cells, so learners can focus on completing the critical NumPy operation in an Andrew Ng style workflow.
+
 ## Pandas Tutorial Track
 
-The repo now includes a pandas learning track inspired by the official pandas getting-started documentation:
+The repo also includes a pandas learning track inspired by the official pandas getting-started documentation:
 
 - `parts/part-1-python-foundations/03_pandas_for_ai_engineers.qmd`: Guided pandas tutorial chapter
 - `labs/pandas/01_pandas_basics_practice.ipynb`: DataFrame basics and filtering practice
@@ -30,7 +44,7 @@ The repo now includes a pandas learning track inspired by the official pandas ge
 
 This material follows the official pandas learning progression around tabular data handling, selection, plotting, derived columns, summary statistics, reshaping, combining tables, time series, and text operations.
 
-The practice notebooks use guided starter code rather than blank exercise cells, so learners can focus on completing the critical pandas operation in an Andrew Ng style workflow.
+The practice notebooks use the same guided starter-code style as the NumPy exercises so learners complete key operations instead of starting from empty cells.
 
 ## Build And Preview
 
