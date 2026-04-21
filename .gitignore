@@ -55,3 +55,4 @@ Thumbs.db
 *.bbl
 *.fls
 *.fdb_latexmk
+/.quarto/

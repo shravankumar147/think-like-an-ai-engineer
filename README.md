@@ -25,9 +25,9 @@ This repository contains a Quarto-based book project focused on AI engineering a
 The repo includes a NumPy learning track inspired by the official NumPy beginner and user-guide documentation:
 
 - `parts/part-1-python-foundations/04_numpy_for_ai_engineers.qmd`: Guided NumPy tutorial chapter
-- `labs/numpy/01_numpy_array_basics.ipynb`: Array creation, shape, dtype, and indexing practice
-- `labs/numpy/02_numpy_vectorized_operations.ipynb`: Vectorized math, broadcasting, and dot product practice
-- `labs/numpy/03_numpy_shapes_and_aggregations.ipynb`: Reshape, axis-based summaries, and stacking practice
+- `labs/numpy/01_numpy_array_basics.ipynb`: NumPy Array Basics Practice
+- `labs/numpy/02_numpy_vectorized_operations.ipynb`: NumPy Vectorized Operations Practice
+- `labs/numpy/03_numpy_shapes_and_aggregations.ipynb`: NumPy Shapes And Aggregations Practice
 
 This material follows the official NumPy progression around array creation, indexing, vectorized computation, broadcasting, aggregation, reshaping, randomness, and basic linear algebra.
 

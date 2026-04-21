@@ -13,6 +13,7 @@ book:
     - parts/part-1-python-foundations/01_the_ai_engineer_mindset.qmd
     - parts/part-1-python-foundations/02_python_execution_model.qmd
     - parts/part-1-python-foundations/04_numpy_for_ai_engineers.qmd
+    - parts/part-1-python-foundations/05_for_loops.qmd
     - labs/numpy/01_numpy_array_basics.ipynb
     - labs/numpy/02_numpy_vectorized_operations.ipynb
     - labs/numpy/03_numpy_shapes_and_aggregations.ipynb

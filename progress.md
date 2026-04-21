@@ -12,6 +12,8 @@
 
 - Updated `_quarto.yml` so the NumPy chapter and NumPy practice notebooks now come before the Pandas section.
 - Updated the part intro and `README.md` so the documented learning order matches the new book order.
+- Added reflection prompts to all three NumPy practice notebooks so they match the pandas exercise format.
+- Renamed the NumPy notebook titles to include `Practice` so the sidebar naming is consistent and less confusing.
 
 ## 2026-04-05
 
