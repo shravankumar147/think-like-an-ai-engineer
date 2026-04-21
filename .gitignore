@@ -56,3 +56,6 @@ Thumbs.db
 *.fls
 *.fdb_latexmk
 /.quarto/
+_site/
+.quarto/
+*.log
