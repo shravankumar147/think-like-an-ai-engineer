@@ -20,6 +20,13 @@ This repository contains a Quarto-based book project focused on AI engineering a
 - `parts/part2_machine-learning/` to `parts/part6_production-ai/`: Planned future sections
 - `.github/workflows/deploy.yml`: CI/CD workflow for rendering and deployment
 
+## Core Data Structures Track
+
+The repo includes a core Python data structures track designed to bridge basic Python execution and high-performance NumPy arrays:
+
+- `parts/part-1-python-foundations/07_data_structures.qmd`: Guided tutorial chapter on lists, dicts, sets, and Big-O basics.
+- `labs/python-dsa/01_core_structures_practice.ipynb`: Guided practice for managing lookups and filtering API responses using dictionaries and sets.
+
 ## NumPy Tutorial Track
 
 The repo includes a NumPy learning track inspired by the official NumPy beginner and user-guide documentation:
@@ -71,6 +78,94 @@ QUARTO_PYTHON=.venv/bin/python quarto render
 ```
 
 The rendered static site is written to `_site/`.
+
+## Adding A Chapter
+
+To add a new book chapter manually:
+
+1. Create a new `.qmd` file in the appropriate chapter folder.
+
+Example:
+
+```text
+parts/part-1-python-foundations/07_break_continue.qmd
+```
+
+Start the file with Quarto YAML front matter:
+
+```markdown
+---
+title: "Break and Continue"
+---
+
+# Break and Continue
+
+Your chapter content here.
+```
+
+2. Add the chapter path to `_quarto.yml` under `book: chapters:` in the order it should appear in the sidebar.
+
+Example:
+
+```yaml
+book:
+  chapters:
+    - index.qmd
+    - parts/part-1-python-foundations/05_for_loops.qmd
+    - parts/part-1-python-foundations/06_while_loops.qmd
+    - parts/part-1-python-foundations/07_break_continue.qmd
+```
+
+3. Render from the repository root with the local virtual environment:
+
+```bash
+QUARTO_PYTHON=.venv/bin/python quarto render
+```
+
+4. Open the rendered site from:
+
+```text
+_site/index.html
+```
+
+Prefer the `QUARTO_PYTHON=.venv/bin/python` form because plain `quarto render` may pick a different system Python that does not have the project notebook dependencies installed.
+
+## Code Blocks In Chapters
+
+Use plain fenced code blocks when you want to show code without running it:
+
+````markdown
+```python
+count = 1
+
+while count <= 5:
+    print(count)
+    count += 1
+```
+````
+
+Use executable Quarto code cells only when the code should run during render:
+
+````markdown
+```{python}
+count = 1
+
+while count <= 5:
+    print(count)
+    count += 1
+```
+````
+
+The difference is:
+
+```text
+```python    = show code only
+```{python}  = execute code during render
+```
+
+Quarto creates intermediate `.quarto_ipynb` files for chapters with executable `{python}` cells. Chapters with only display-only `python` code blocks do not need those intermediate notebook files.
+
+Keep examples such as infinite loops, `input()` prompts, undefined helper functions, API retries, and server loops as display-only `python` blocks so the render does not hang or fail.
 
 ## Preview Troubleshooting
 

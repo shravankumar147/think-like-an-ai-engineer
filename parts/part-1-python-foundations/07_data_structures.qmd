@@ -1,0 +1,107 @@
+---
+title: "Data Structures & Complexity for AI"
+---
+
+# Data Structures & Complexity for AI
+
+As an AI engineer, you don't typically need to implement red-black trees or custom linked lists from scratch. However, you absolutely must understand Python's core data structures and how they impact performance. 
+
+When you scale up from processing 10 rows to 10 million rows, choosing the right data structure is the difference between a script that finishes in seconds and one that crashes.
+
+## Core Python Data Structures
+
+### Lists and Tuples (Sequential Data)
+
+**Lists** (`[]`) are ordered and mutable. You use them when order matters or when you need to iterate sequentially over a collection of items.
+
+```python
+# A list of text chunks for processing
+documents = ["chunk_1", "chunk_2", "chunk_3"]
+documents.append("chunk_4")
+```
+
+**Tuples** (`()`) are ordered but immutable. Use them for fixed data or when returning multiple values from a function. They are slightly faster and more memory-efficient than lists.
+
+```python
+# Model dimensions (batch_size, sequence_length, embedding_dim)
+shape = (32, 512, 768)
+```
+
+### Dictionaries and Sets (Hash Maps)
+
+**Dictionaries** (`{}`) store key-value pairs. They are heavily optimized in Python and provide nearly instant lookups, regardless of how large the dictionary gets. This is crucial when processing JSON API responses or creating lookup tables.
+
+```python
+# Parsing a mock API response from an LLM
+response = {
+    "id": "chatcmpl-123",
+    "model": "gpt-4",
+    "usage": {"prompt_tokens": 10, "completion_tokens": 5}
+}
+print(response["model"])
+```
+
+**Sets** (`set()`) are like dictionaries with only keys. They only store unique elements. They are incredibly fast for checking if an item exists (membership testing) or finding intersections between datasets.
+
+```python
+# Finding unique vocabulary words
+vocab = set(["the", "cat", "sat", "the", "dog"])
+print(vocab) # {'the', 'cat', 'sat', 'dog'}
+
+# Instant membership check
+is_known = "cat" in vocab
+```
+
+## Big O Basics: Why Lookups Matter
+
+In computer science, **Big O notation** describes how an algorithm scales as the data size ($n$) grows.
+
+- **$O(1)$ (Constant Time):** The operation takes the same amount of time regardless of data size. Dictionary and Set lookups are $O(1)$ because they use hashing.
+- **$O(n)$ (Linear Time):** The operation scales linearly with data size. Iterating through a List or searching a List with `in` is $O(n)$.
+- **$O(n^2)$ (Quadratic Time):** The operation scales exponentially. A nested `for` loop over a list is $O(n^2)$. This is the enemy of AI data processing.
+
+**Example: The $O(n)$ vs $O(1)$ difference**
+
+Imagine checking if an ID exists in a collection of 1 million IDs:
+
+```python
+# BAD: O(n) lookup in a list
+# Python checks each item one by one. This is slow!
+if "user_123" in list_of_million_ids:
+    pass
+
+# GOOD: O(1) lookup in a set
+# Python hashes the string and jumps straight to the memory location. Instant!
+if "user_123" in set_of_million_ids:
+    pass
+```
+
+## The Bridge to NumPy: Iteration vs Vectorization
+
+While Python dictionaries and sets are incredibly fast, pure Python `for` loops are slow when doing heavy mathematical calculations over millions of numbers. 
+
+Consider adding two large lists of numbers together:
+
+```python
+# O(n) Python List iteration (Slow for math)
+a = [1, 2, 3] # Imagine this has 1 million elements
+b = [4, 5, 6]
+c = []
+
+for i in range(len(a)):
+    c.append(a[i] + b[i])
+```
+
+In the upcoming chapters, we will introduce **NumPy**, which bypasses the slow Python loop entirely and pushes the operation down to highly optimized C code (Vectorization).
+
+```python
+# NumPy Vectorization (Fast for math)
+import numpy as np
+a_arr = np.array([1, 2, 3])
+b_arr = np.array([4, 5, 6])
+
+# No loops! The whole array is added at once in C.
+c_arr = a_arr + b_arr
+```
+
+By choosing dictionaries for fast lookups and NumPy for fast math, you are thinking like an AI engineer.

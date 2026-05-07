@@ -1,0 +1,309 @@
+---
+title: "While Loops: Condition-Driven Iteration"
+subtitle: "When you don't know how many times to repeat"
+format:
+  html: default
+  pdf: default
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Learning Objectives
+
+By the end of this chapter, you will:
+
+- Understand when to use `while` loops vs `for` loops
+- Write condition-based iterative logic
+- Avoid infinite loops
+- Apply `while` loops in AI and data systems
+- Build real-world loop-driven workflows
+
+---
+
+# The Big Idea
+
+A **while loop** runs **as long as a condition is True**.
+
+$$
+\text{Repeat until condition becomes False}
+$$
+
+Unlike `for` loops:
+
+- `for` loops are useful for fixed iterations
+- `while` loops are useful for unknown iterations
+
+---
+
+# Story: The Smart Water Tank
+
+You are building a **smart IoT water system**.
+
+> Keep filling the tank while it is not full.
+
+You do not know how many cycles it will take.
+
+```python
+tank_full = False
+
+while not tank_full:
+    print("Filling water...")
+    # sensor updates tank status
+```
+
+This is the essence of **while loops**.
+
+---
+
+# Syntax
+
+```python
+while condition:
+    # block of code
+```
+
+---
+
+# Basic Example
+
+```{python}
+count = 1
+
+while count <= 5:
+    print(count)
+    count += 1
+```
+
+---
+
+# Critical Concept: Loop Progress
+
+A `while` loop **must move toward termination**.
+
+## Wrong: Infinite Loop
+
+```python
+x = 1
+
+while x <= 5:
+    print(x)
+```
+
+## Correct
+
+```python
+x = 1
+
+while x <= 5:
+    print(x)
+    x += 1
+```
+
+---
+
+# While vs For: Mental Model
+
+| Scenario | Best Choice |
+|---|---|
+| Known iterations | `for` |
+| Unknown iterations | `while` |
+| Iterate over a list | `for` |
+| Condition-based system | `while` |
+
+---
+
+# AI and Data Science Perspective
+
+While loops are everywhere in real systems.
+
+## 1. Model Training: Conceptual
+
+```python
+loss = 10
+
+while loss > 0.1:
+    loss -= 0.5
+```
+
+---
+
+## 2. Streaming Systems
+
+```python
+while True:
+    data = receive_stream()
+    process(data)
+```
+
+---
+
+## 3. Retry Logic: Production Systems
+
+```python
+success = False
+
+while not success:
+    success = try_api_call()
+```
+
+---
+
+# Infinite Loops
+
+```python
+while True:
+    print("Server is running...")
+```
+
+Used in:
+
+- APIs
+- Chatbots
+- Monitoring systems
+
+Controlled using `break`, which is covered in a later chapter.
+
+---
+
+# Input-Based Loops
+
+```python
+password = ""
+
+while password != "admin123":
+    password = input("Enter password: ")
+```
+
+---
+
+# Example: Data Pipeline Simulation
+
+```python
+records_processed = 0
+
+while records_processed < 5:
+    print(f"Processing record {records_processed}")
+    records_processed += 1
+```
+
+---
+
+# Practice Exercises
+
+## Exercise 1: Print Numbers 1 to 10
+
+```python
+# Your code here
+```
+
+---
+
+## Exercise 2: Sum First N Numbers
+
+```python
+n = 5
+# Your code here
+```
+
+---
+
+## Exercise 3: Countdown Timer
+
+```python
+timer = 5
+
+while timer > 0:
+    print(timer)
+    timer -= 1
+
+print("Done!")
+```
+
+---
+
+## Exercise 4: Keep Asking Until Valid Input
+
+```python
+num = -1
+
+while num < 0:
+    num = int(input("Enter positive number: "))
+```
+
+---
+
+# Interview Questions
+
+## 1. Difference between `for` and `while`?
+
+- `for`: fixed iterations
+- `while`: condition-based iterations
+
+---
+
+## 2. What is an infinite loop?
+
+A loop that never stops:
+
+```python
+while True:
+    pass
+```
+
+---
+
+## 3. How do you prevent infinite loops?
+
+- Update variables
+- Use a proper condition
+- Use `break` when appropriate
+
+---
+
+## 4. Where are while loops used in ML systems?
+
+- Training loops
+- Monitoring systems
+- Streaming pipelines
+- Retry mechanisms
+
+---
+
+# Solutions
+
+## Solution 1
+
+```python
+i = 1
+
+while i <= 10:
+    print(i)
+    i += 1
+```
+
+---
+
+## Solution 2
+
+```python
+n = 5
+i = 1
+total = 0
+
+while i <= n:
+    total += i
+    i += 1
+
+print(total)
+```
+
+---
+
+# Key Takeaways
+
+- `while` loops run based on **conditions**
+- Use them when repetitions are **unknown**
+- Always ensure a **termination condition**
+- They are critical for **real-time systems and AI pipelines**

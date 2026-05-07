@@ -1,5 +1,30 @@
 # Progress Log
 
+## 2026-05-07
+
+### Python DSA Tutorial Expansion
+
+- Added a new chapter on Data Structures & Complexity at `parts/part-1-python-foundations/07_data_structures.qmd`.
+- Added a guided practice notebook for dicts and sets under `labs/python-dsa/`.
+- Updated `_quarto.yml` and `_intro.qmd` to weave this chapter logically before NumPy.
+- Documented the track in `README.md`.
+
+## 2026-04-28
+
+### While Loops Chapter
+
+- Added `parts/part-1-python-foundations/06_while_loops.qmd` as a new condition-driven iteration chapter.
+- Cleaned the pasted chapter content so it is valid Quarto Markdown rather than a nested Markdown code block.
+- Added the new chapter to `_quarto.yml` immediately after the for-loops chapter.
+- Verified the book render succeeds with `QUARTO_PYTHON=.venv/bin/python quarto render`.
+
+### Manual Chapter Workflow Documentation
+
+- Updated `README.md` with the manual steps for adding a new `.qmd` chapter.
+- Documented where to register new chapters in `_quarto.yml`.
+- Documented the preferred render command using the repository `.venv` so Quarto does not pick the wrong system Python.
+- Documented the difference between display-only `python` code fences and executable `{python}` Quarto cells.
+
 ## 2026-04-06
 
 ### Book Navigation Ordering
