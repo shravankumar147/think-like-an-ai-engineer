@@ -88,18 +88,28 @@
       gap: 14px;
     }
 
-    @keyframes floatIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0px);
-      }
+    .focus-bar {
+      position: absolute;
+      bottom: 12px;
+      height: calc(100% - 24px);
+      border-radius: 24px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.45),
+        0 8px 18px rgba(0,0,0,0.08);
+      pointer-events: none;
+      transition:
+        left 0.45s ease,
+        width 0.45s ease,
+        opacity 0.3s ease;
+      z-index: 1;
     }
 
     .bubble {
+      z-index: 2;
       width: 60px;
       position: relative;
       border-radius: 18px 18px 8px 8px;
@@ -192,6 +202,16 @@
     <h1>🫧 Bubble Sort Aquarium</h1>
     <p>Watch bigger bubbles float to the right as Bubble Sort works!</p>
 
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
+      <input
+        id="arrayInput"
+        type="text"
+        placeholder="Enter numbers like: 5,1,4,2,8"
+        style="padding:12px 16px;border-radius:12px;border:2px solid #cfe8ff;min-width:320px;font-size:15px;"
+      />
+      <button onclick="applyCustomInput()">✨ Visualize</button>
+    </div>
+
     <div class="controls">
       <button onclick="shuffleArray()">🔀 Shuffle</button>
       <button onclick="nextStep()">➡️ Next Step</button>
@@ -240,6 +260,7 @@
     function render(active = []) {
       arena.innerHTML = '';
 
+      // First render all bubbles
       numbers.forEach((num, index) => {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
@@ -259,6 +280,31 @@
 
         arena.appendChild(bubble);
       });
+
+      // Then dynamically align focus bar using actual DOM positions
+      if (active.length === 2) {
+        const bubbles = document.querySelectorAll('.bubble');
+
+        const leftBubble = bubbles[active[0]];
+        const rightBubble = bubbles[active[1]];
+
+        if (leftBubble && rightBubble) {
+          const focusBar = document.createElement('div');
+          focusBar.className = 'focus-bar';
+
+          const arenaRect = arena.getBoundingClientRect();
+          const leftRect = leftBubble.getBoundingClientRect();
+          const rightRect = rightBubble.getBoundingClientRect();
+
+          const left = leftRect.left - arenaRect.left - 10;
+          const width = (rightRect.right - leftRect.left) + 20;
+
+          focusBar.style.left = `${left}px`;
+          focusBar.style.width = `${width}px`;
+
+          arena.prepend(focusBar);
+        }
+      }
 
       updateStats();
     }
@@ -282,7 +328,6 @@
       leftBubble.style.zIndex = '20';
       rightBubble.style.zIndex = '20';
 
-      // Smooth arc-like crossover
       leftBubble.animate(
         [
           { transform: 'translate(0px, 0px)' },
@@ -400,15 +445,48 @@
       render();
     }
 
-    // Initial render
+    function applyCustomInput() {
+      pausePlay();
+
+      const input = document.getElementById('arrayInput').value.trim();
+
+      if (!input) {
+        messageEl.textContent = '⚠️ Please enter some numbers.';
+        return;
+      }
+
+      const parsed = input
+        .split(',')
+        .map(item => Number(item.trim()))
+        .filter(num => !Number.isNaN(num));
+
+      if (parsed.length < 2) {
+        messageEl.textContent = '⚠️ Enter at least 2 valid numbers.';
+        return;
+      }
+
+      if (parsed.some(num => num <= 0)) {
+        messageEl.textContent = '⚠️ Please use positive numbers only.';
+        return;
+      }
+
+      numbers = parsed;
+
+      resetState();
+
+      messageEl.textContent = `✨ Visualizing: [${numbers.join(', ')}]`;
+
+      render();
+    }
+
     render();
 
-    // Simple runtime checks
     console.assert(Array.isArray(numbers), 'numbers should be an array');
     console.assert(typeof nextStep === 'function', 'nextStep should exist');
     console.assert(typeof shuffleArray === 'function', 'shuffleArray should exist');
     console.assert(typeof autoPlay === 'function', 'autoPlay should exist');
     console.assert(typeof pausePlay === 'function', 'pausePlay should exist');
+    console.assert(typeof applyCustomInput === 'function', 'applyCustomInput should exist');
   </script>
 </body>
 </html>
