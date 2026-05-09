@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Big-O Notation – Think Like an AI Engineer</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../labs/python-dsa/01_core_structures_practice.html" rel="next">
+<link href="../../parts/part-2-algorithms/01_bubble_sort.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5ea8f22911a6df30576a2a25a24cdd7a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/part-2-algorithms/01_bubble_sort.html">Algorithms</a></li><li class="breadcrumb-item"><a href="../../parts/part-2-algorithms/02_big_o_notation.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Big-O Notation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Think Like an AI Engineer</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Like an AI Engineer</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/01_the_ai_engineer_mindset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The AI Engineer Mindset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/02_python_execution_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Python Execution Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/03_pandas_for_ai_engineers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas for AI Engineers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/04_numpy_for_ai_engineers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NumPy for AI Engineers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/05_for_loops.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loops for Data Scientists &amp; AI Engineers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/06_while_loops.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">While Loops: Condition-Driven Iteration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-1-python-foundations/07_data_structures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data Structures &amp; Complexity for AI</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Algorithms</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-2-algorithms/01_bubble_sort.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bubble Sort</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../parts/part-2-algorithms/02_big_o_notation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Big-O Notation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python DSA Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/python-dsa/01_core_structures_practice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Core Data Structures Practice</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">NumPy Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/numpy/01_numpy_array_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">NumPy Array Basics Practice</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/numpy/02_numpy_vectorized_operations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">NumPy Vectorized Operations Practice</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/numpy/03_numpy_shapes_and_aggregations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">NumPy Shapes And Aggregations Practice</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pandas Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/pandas/01_pandas_basics_practice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pandas Basics Practice</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/pandas/02_pandas_transformations_practice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Pandas Transformations Practice</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../labs/pandas/03_pandas_time_text_practice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Pandas Time And Text Practice</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-big-o" id="toc-what-is-big-o" class="nav-link active" data-scroll-target="#what-is-big-o"><span class="header-section-number">10.1</span> What is Big-O?</a></li>
+  <li><a href="#real-life-analogy" id="toc-real-life-analogy" class="nav-link" data-scroll-target="#real-life-analogy"><span class="header-section-number">10.2</span> Real-Life Analogy</a>
+  <ul class="collapse">
+  <li><a href="#small-notebook" id="toc-small-notebook" class="nav-link" data-scroll-target="#small-notebook">1. Small notebook</a></li>
+  <li><a href="#huge-phonebook" id="toc-huge-phonebook" class="nav-link" data-scroll-target="#huge-phonebook">2. Huge phonebook</a></li>
+  </ul></li>
+  <li><a href="#why-ai-engineers-must-learn-it" id="toc-why-ai-engineers-must-learn-it" class="nav-link" data-scroll-target="#why-ai-engineers-must-learn-it"><span class="header-section-number">10.3</span> Why AI Engineers Must Learn It</a></li>
+  <li><a href="#the-main-big-o-types" id="toc-the-main-big-o-types" class="nav-link" data-scroll-target="#the-main-big-o-types"><span class="header-section-number">10.4</span> The Main Big-O Types</a></li>
+  <li><a href="#o1-constant-time" id="toc-o1-constant-time" class="nav-link" data-scroll-target="#o1-constant-time"><span class="header-section-number">10.5</span> O(1) — Constant Time</a>
+  <ul class="collapse">
+  <li><a href="#meaning" id="toc-meaning" class="nav-link" data-scroll-target="#meaning">Meaning</a></li>
+  <li><a href="#real-ai-example" id="toc-real-ai-example" class="nav-link" data-scroll-target="#real-ai-example">Real AI Example</a></li>
+  </ul></li>
+  <li><a href="#on-linear-time" id="toc-on-linear-time" class="nav-link" data-scroll-target="#on-linear-time"><span class="header-section-number">10.6</span> O(n) — Linear Time</a>
+  <ul class="collapse">
+  <li><a href="#meaning-1" id="toc-meaning-1" class="nav-link" data-scroll-target="#meaning-1">Meaning</a></li>
+  <li><a href="#real-ai-example-1" id="toc-real-ai-example-1" class="nav-link" data-scroll-target="#real-ai-example-1">Real AI Example</a></li>
+  </ul></li>
+  <li><a href="#olog-n-logarithmic-time" id="toc-olog-n-logarithmic-time" class="nav-link" data-scroll-target="#olog-n-logarithmic-time"><span class="header-section-number">10.7</span> O(log n) — Logarithmic Time</a>
+  <ul class="collapse">
+  <li><a href="#meaning-2" id="toc-meaning-2" class="nav-link" data-scroll-target="#meaning-2">Meaning</a></li>
+  <li><a href="#real-life-example" id="toc-real-life-example" class="nav-link" data-scroll-target="#real-life-example">Real-Life Example</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2">Example</a></li>
+  <li><a href="#real-ai-example-2" id="toc-real-ai-example-2" class="nav-link" data-scroll-target="#real-ai-example-2">Real AI Example</a></li>
+  </ul></li>
+  <li><a href="#on-log-n" id="toc-on-log-n" class="nav-link" data-scroll-target="#on-log-n"><span class="header-section-number">10.8</span> O(n log n)</a>
+  <ul class="collapse">
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3">Example</a></li>
+  <li><a href="#real-ai-example-3" id="toc-real-ai-example-3" class="nav-link" data-scroll-target="#real-ai-example-3">Real AI Example</a></li>
+  </ul></li>
+  <li><a href="#on²-quadratic-time" id="toc-on²-quadratic-time" class="nav-link" data-scroll-target="#on²-quadratic-time"><span class="header-section-number">10.9</span> O(n²) — Quadratic Time</a>
+  <ul class="collapse">
+  <li><a href="#meaning-3" id="toc-meaning-3" class="nav-link" data-scroll-target="#meaning-3">Meaning</a></li>
+  <li><a href="#example-4" id="toc-example-4" class="nav-link" data-scroll-target="#example-4">Example</a></li>
+  <li><a href="#real-ai-example-4" id="toc-real-ai-example-4" class="nav-link" data-scroll-target="#real-ai-example-4">Real AI Example</a></li>
+  </ul></li>
+  <li><a href="#o2ⁿ-exponential-time" id="toc-o2ⁿ-exponential-time" class="nav-link" data-scroll-target="#o2ⁿ-exponential-time"><span class="header-section-number">10.10</span> O(2ⁿ) — Exponential Time</a>
+  <ul class="collapse">
+  <li><a href="#example-5" id="toc-example-5" class="nav-link" data-scroll-target="#example-5">Example</a></li>
+  </ul></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">10.11</span> Visualization</a></li>
+  <li><a href="#simple-way-to-think-about-it" id="toc-simple-way-to-think-about-it" class="nav-link" data-scroll-target="#simple-way-to-think-about-it"><span class="header-section-number">10.12</span> Simple Way to Think About It</a></li>
+  <li><a href="#practical-ai-engineering-examples" id="toc-practical-ai-engineering-examples" class="nav-link" data-scroll-target="#practical-ai-engineering-examples"><span class="header-section-number">10.13</span> Practical AI Engineering Examples</a></li>
+  <li><a href="#important-mindset" id="toc-important-mindset" class="nav-link" data-scroll-target="#important-mindset"><span class="header-section-number">10.14</span> Important Mindset</a></li>
+  <li><a href="#golden-rule" id="toc-golden-rule" class="nav-link" data-scroll-target="#golden-rule"><span class="header-section-number">10.15</span> Golden Rule</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../parts/part-2-algorithms/01_bubble_sort.html">Algorithms</a></li><li class="breadcrumb-item"><a href="../../parts/part-2-algorithms/02_big_o_notation.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Big-O Notation</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Big-O Notation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- # Big-O Notation -->
+<section id="what-is-big-o" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="what-is-big-o"><span class="header-section-number">10.1</span> What is Big-O?</h2>
+<p>Big-O tells us:</p>
+<blockquote class="blockquote">
+<p>“How fast or slow does a program become as data grows?”</p>
+</blockquote>
+<p>Not with:</p>
+<ul>
+<li>10 items</li>
+<li>100 items</li>
+</ul>
+<p>But with:</p>
+<ul>
+<li>1 million</li>
+<li>100 million</li>
+<li>billions</li>
+</ul>
+<hr>
+</section>
+<section id="real-life-analogy" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="real-life-analogy"><span class="header-section-number">10.2</span> Real-Life Analogy</h2>
+<p>Imagine searching for a name in:</p>
+<section id="small-notebook" class="level3">
+<h3 class="anchored" data-anchor-id="small-notebook">1. Small notebook</h3>
+<p>Easy.</p>
+</section>
+<section id="huge-phonebook" class="level3">
+<h3 class="anchored" data-anchor-id="huge-phonebook">2. Huge phonebook</h3>
+<p>Now speed matters.</p>
+<p>The way you search changes performance.</p>
+<p>That’s what Big-O measures.</p>
+<hr>
+</section>
+</section>
+<section id="why-ai-engineers-must-learn-it" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="why-ai-engineers-must-learn-it"><span class="header-section-number">10.3</span> Why AI Engineers Must Learn It</h2>
+<p>AI systems deal with:</p>
+<ul>
+<li>huge datasets</li>
+<li>embeddings</li>
+<li>vector databases</li>
+<li>streaming data</li>
+<li>retrieval systems</li>
+<li>inference requests</li>
+</ul>
+<p>Even small inefficiencies become expensive.</p>
+<p>Example:</p>
+<ul>
+<li>1 ms × 1 request = fine</li>
+<li>1 ms × 100 million requests = disaster</li>
+</ul>
+<hr>
+</section>
+<section id="the-main-big-o-types" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="the-main-big-o-types"><span class="header-section-number">10.4</span> The Main Big-O Types</h2>
+<hr>
+</section>
+<section id="o1-constant-time" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="o1-constant-time"><span class="header-section-number">10.5</span> O(1) — Constant Time</h2>
+<section id="meaning" class="level3">
+<h3 class="anchored" data-anchor-id="meaning">Meaning</h3>
+<p>Time does NOT grow with data size.</p>
+<section id="example" class="level4">
+<h4 class="anchored" data-anchor-id="example">Example</h4>
+<p>Getting one item from an array.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arr[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>No matter:</p>
+<ul>
+<li>4 items</li>
+<li>4 million items</li>
+</ul>
+<p>Access is instant.</p>
+<hr>
+</section>
+</section>
+<section id="real-ai-example" class="level3">
+<h3 class="anchored" data-anchor-id="real-ai-example">Real AI Example</h3>
+<p>Embedding lookup:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>embedding <span class="op">=</span> embeddings[user_id]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Fast retrieval.</p>
+<hr>
+</section>
+</section>
+<section id="on-linear-time" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="on-linear-time"><span class="header-section-number">10.6</span> O(n) — Linear Time</h2>
+<section id="meaning-1" class="level3">
+<h3 class="anchored" data-anchor-id="meaning-1">Meaning</h3>
+<p>Work grows linearly with data.</p>
+<p>More data → more work.</p>
+<section id="example-1" class="level4">
+<h4 class="anchored" data-anchor-id="example-1">Example</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> arr:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If array size doubles, work doubles.</p>
+<hr>
+</section>
+</section>
+<section id="real-ai-example-1" class="level3">
+<h3 class="anchored" data-anchor-id="real-ai-example-1">Real AI Example</h3>
+<p>Scanning all documents:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> documents:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    search(doc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Common in:</p>
+<ul>
+<li>NLP preprocessing</li>
+<li>dataset cleaning</li>
+<li>brute-force search</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="olog-n-logarithmic-time" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="olog-n-logarithmic-time"><span class="header-section-number">10.7</span> O(log n) — Logarithmic Time</h2>
+<section id="meaning-2" class="level3">
+<h3 class="anchored" data-anchor-id="meaning-2">Meaning</h3>
+<p>Problem size reduces each step.</p>
+<p>Very efficient.</p>
+<hr>
+</section>
+<section id="real-life-example" class="level3">
+<h3 class="anchored" data-anchor-id="real-life-example">Real-Life Example</h3>
+<p>Guessing a number:</p>
+<p>1–1000</p>
+<p>You keep dividing range in half.</p>
+<p>That’s binary search.</p>
+<hr>
+</section>
+<section id="example-2" class="level3">
+<h3 class="anchored" data-anchor-id="example-2">Example</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>binary_search(arr, target)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>1 million items:</p>
+<ul>
+<li>linear search → 1,000,000 checks</li>
+<li>binary search → about 20 checks</li>
+</ul>
+<p>Huge difference.</p>
+<hr>
+</section>
+<section id="real-ai-example-2" class="level3">
+<h3 class="anchored" data-anchor-id="real-ai-example-2">Real AI Example</h3>
+<p>Used in:</p>
+<ul>
+<li>search systems</li>
+<li>databases</li>
+<li>indexing</li>
+<li>retrieval systems</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="on-log-n" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="on-log-n"><span class="header-section-number">10.8</span> O(n log n)</h2>
+<p>Very common in efficient algorithms.</p>
+<hr>
+<section id="example-3" class="level3">
+<h3 class="anchored" data-anchor-id="example-3">Example</h3>
+<p>Efficient sorting:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(arr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Uses optimized sorting internally.</p>
+<hr>
+</section>
+<section id="real-ai-example-3" class="level3">
+<h3 class="anchored" data-anchor-id="real-ai-example-3">Real AI Example</h3>
+<p>Used in:</p>
+<ul>
+<li>ranking systems</li>
+<li>sorting recommendations</li>
+<li>preprocessing pipelines</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="on²-quadratic-time" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="on²-quadratic-time"><span class="header-section-number">10.9</span> O(n²) — Quadratic Time</h2>
+<section id="meaning-3" class="level3">
+<h3 class="anchored" data-anchor-id="meaning-3">Meaning</h3>
+<p>Every item compares with every other item.</p>
+<p>Dangerous for large data.</p>
+<hr>
+</section>
+<section id="example-4" class="level3">
+<h3 class="anchored" data-anchor-id="example-4">Example</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> arr:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> arr:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(i, j)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>10 items → 100 operations</p>
+<p>1000 items → 1,000,000 operations</p>
+<hr>
+</section>
+<section id="real-ai-example-4" class="level3">
+<h3 class="anchored" data-anchor-id="real-ai-example-4">Real AI Example</h3>
+<p>Similarity comparison:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> user1 <span class="kw">in</span> users:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> user2 <span class="kw">in</span> users:</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        compare(user1, user2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Very expensive.</p>
+<p>This is why vector databases use ANN algorithms.</p>
+<hr>
+</section>
+</section>
+<section id="o2ⁿ-exponential-time" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="o2ⁿ-exponential-time"><span class="header-section-number">10.10</span> O(2ⁿ) — Exponential Time</h2>
+<p>Extremely slow.</p>
+<p>Usually brute force recursion.</p>
+<hr>
+<section id="example-5" class="level3">
+<h3 class="anchored" data-anchor-id="example-5">Example</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fib(n):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> n</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fib(n<span class="op">-</span><span class="dv">1</span>) <span class="op">+</span> fib(n<span class="op">-</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Looks simple. Becomes terrible fast.</p>
+<hr>
+</section>
+</section>
+<section id="visualization" class="level2" data-number="10.11">
+<h2 data-number="10.11" class="anchored" data-anchor-id="visualization"><span class="header-section-number">10.11</span> Visualization</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Big-O</th>
+<th>Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>O(1)</td>
+<td>Excellent</td>
+</tr>
+<tr class="even">
+<td>O(log n)</td>
+<td>Very Fast</td>
+</tr>
+<tr class="odd">
+<td>O(n)</td>
+<td>Good</td>
+</tr>
+<tr class="even">
+<td>O(n log n)</td>
+<td>Acceptable</td>
+</tr>
+<tr class="odd">
+<td>O(n²)</td>
+<td>Slow</td>
+</tr>
+<tr class="even">
+<td>O(2ⁿ)</td>
+<td>Very Slow</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="simple-way-to-think-about-it" class="level2" data-number="10.12">
+<h2 data-number="10.12" class="anchored" data-anchor-id="simple-way-to-think-about-it"><span class="header-section-number">10.12</span> Simple Way to Think About It</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Big-O</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One lookup</td>
+<td>O(1)</td>
+</tr>
+<tr class="even">
+<td>Scan everything</td>
+<td>O(n)</td>
+</tr>
+<tr class="odd">
+<td>Keep dividing search space</td>
+<td>O(log n)</td>
+</tr>
+<tr class="even">
+<td>Sort efficiently</td>
+<td>O(n log n)</td>
+</tr>
+<tr class="odd">
+<td>Compare everything with everything</td>
+<td>O(n²)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="practical-ai-engineering-examples" class="level2" data-number="10.13">
+<h2 data-number="10.13" class="anchored" data-anchor-id="practical-ai-engineering-examples"><span class="header-section-number">10.13</span> Practical AI Engineering Examples</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HashMap lookup</td>
+<td>O(1)</td>
+</tr>
+<tr class="even">
+<td>Scan dataset</td>
+<td>O(n)</td>
+</tr>
+<tr class="odd">
+<td>Binary search in index</td>
+<td>O(log n)</td>
+</tr>
+<tr class="even">
+<td>Sorting embeddings</td>
+<td>O(n log n)</td>
+</tr>
+<tr class="odd">
+<td>Brute-force similarity search</td>
+<td>O(n²)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="important-mindset" class="level2" data-number="10.14">
+<h2 data-number="10.14" class="anchored" data-anchor-id="important-mindset"><span class="header-section-number">10.14</span> Important Mindset</h2>
+<p>Big-O is NOT:</p>
+<ul>
+<li>exact speed</li>
+<li>milliseconds</li>
+<li>hardware performance</li>
+</ul>
+<p>It measures:</p>
+<blockquote class="blockquote">
+<p>growth of work as input grows</p>
+</blockquote>
+<hr>
+</section>
+<section id="golden-rule" class="level2" data-number="10.15">
+<h2 data-number="10.15" class="anchored" data-anchor-id="golden-rule"><span class="header-section-number">10.15</span> Golden Rule</h2>
+<p>When data becomes massive:</p>
+<ul>
+<li>O(1)</li>
+<li>O(log n)</li>
+<li>O(n)</li>
+</ul>
+<p>survive.</p>
+<p>But:</p>
+<ul>
+<li>O(n²)</li>
+<li>O(2ⁿ)</li>
+</ul>
+<p>become dangerous.</p>
+<hr>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../parts/part-2-algorithms/01_bubble_sort.html" class="pagination-link" aria-label="Bubble Sort">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bubble Sort</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../labs/python-dsa/01_core_structures_practice.html" class="pagination-link" aria-label="Core Data Structures Practice">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Core Data Structures Practice</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

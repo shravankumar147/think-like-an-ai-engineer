@@ -2,7 +2,7 @@
 title: "Pandas for AI Engineers"
 ---
 
-# Why Pandas Matters
+<!-- # Why Pandas Matters -->
 
 Pandas is one of the core tools for working with tabular data in Python.
 

@@ -1,6 +1,7 @@
 project:
   type: book
   output-dir: _site
+
   post-render:
     - python3 tools/publish_static_games.py
 
@@ -10,45 +11,151 @@ book:
   author: "Shravan Kumar"
   date: today
 
-  chapters:
-    - index.qmd
-    - parts/part-1-python-foundations/01_the_ai_engineer_mindset.qmd
-    - parts/part-1-python-foundations/02_python_execution_model.qmd
-    - parts/part-1-python-foundations/04_numpy_for_ai_engineers.qmd
-    - parts/part-1-python-foundations/05_for_loops.qmd
-    - parts/part-1-python-foundations/06_while_loops.qmd
-    - parts/part-1-python-foundations/07_data_structures.qmd
-    - part: "Algorithms"
-      chapters:
-        - parts/part-2-algorithms/01_bubble_sort.qmd
-    - labs/python-dsa/01_core_structures_practice.ipynb
-    - labs/numpy/01_numpy_array_basics.ipynb
-    - labs/numpy/02_numpy_vectorized_operations.ipynb
-    - labs/numpy/03_numpy_shapes_and_aggregations.ipynb
-    - parts/part-1-python-foundations/03_pandas_for_ai_engineers.qmd
-    - labs/pandas/01_pandas_basics_practice.ipynb
-    - labs/pandas/02_pandas_transformations_practice.ipynb
-    - labs/pandas/03_pandas_time_text_practice.ipynb
+  # Better navigation experience
+  page-navigation: true
+  search: true
 
+  chapters:
+
+    # =========================================================
+    # INTRO
+    # =========================================================
+    - index.qmd
+
+    # =========================================================
+    # PART 1 — FOUNDATIONS
+    # =========================================================
+    - part: "Foundations"
+      chapters:
+        - parts/part-1-foundations/01_the_ai_engineer_mindset.qmd
+        - parts/part-1-foundations/02_python_execution_model.qmd
+        - parts/part-1-foundations/03_numpy_for_ai_engineers.qmd
+        - parts/part-1-foundations/04_pandas_for_ai_engineers.qmd
+        - parts/part-1-foundations/05_for_loops.qmd
+        - parts/part-1-foundations/06_while_loops.qmd
+        - parts/part-1-foundations/07_data_structures.qmd
+
+    # =========================================================
+    # PART 2 — COMPUTATIONAL THINKING
+    # =========================================================
+    - part: "Computational Thinking"
+      chapters:
+        - parts/part-2-computational-thinking/01_big_o_notation.qmd
+        - parts/part-2-computational-thinking/02_bubble_sort.qmd
+
+    # =========================================================
+    # PART 3 — MACHINE LEARNING
+    # =========================================================
+    # - part: "Machine Learning"
+    #   chapters:
+    #     - parts/part-3-machine-learning/01_ml_fundamentals.qmd
+    #     - parts/part-3-machine-learning/02_linear_regression.qmd
+    #     - parts/part-3-machine-learning/03_model_evaluation.qmd
+
+    # =========================================================
+    # PART 4 — DEEP LEARNING
+    # =========================================================
+    # - part: "Deep Learning"
+    #   chapters:
+    #     - parts/part-4-deep-learning/01_neural_networks.qmd
+    #     - parts/part-4-deep-learning/02_backpropagation.qmd
+    #     - parts/part-4-deep-learning/03_transformers.qmd
+
+    # =========================================================
+    # PART 5 — LLM ENGINEERING
+    # =========================================================
+    # - part: "LLM Engineering"
+    #   chapters:
+    #     - parts/part-5-llm-engineering/01_embeddings.qmd
+    #     - parts/part-5-llm-engineering/02_prompt_engineering.qmd
+    #     - parts/part-5-llm-engineering/03_rag_systems.qmd
+
+    # =========================================================
+    # PART 6 — AI SYSTEMS
+    # =========================================================
+    # - part: "AI Systems"
+    #   chapters:
+    #     - parts/part-6-ai-systems/01_vector_databases.qmd
+    #     - parts/part-6-ai-systems/02_model_serving.qmd
+    #     - parts/part-6-ai-systems/03_ai_system_design.qmd
+
+    # =========================================================
+    # PART 7 — PRODUCTION AI
+    # =========================================================
+    # - part: "Production AI"
+    #   chapters:
+    #     - parts/part-7-production-ai/01_observability.qmd
+    #     - parts/part-7-production-ai/02_guardrails.qmd
+    #     - parts/part-7-production-ai/03_cost_optimization.qmd
+
+    # =========================================================
+    # LABS
+    # =========================================================
+    - part: "Hands-On Labs"
+      chapters:
+
+        # Python + DSA
+        - labs/python-dsa/01_core_structures_practice.ipynb
+
+        # NumPy
+        - labs/numpy/01_numpy_array_basics.ipynb
+        - labs/numpy/02_numpy_vectorized_operations.ipynb
+        - labs/numpy/03_numpy_shapes_and_aggregations.ipynb
+
+        # Pandas
+        - labs/pandas/01_pandas_basics_practice.ipynb
+        - labs/pandas/02_pandas_transformations_practice.ipynb
+        - labs/pandas/03_pandas_time_text_practice.ipynb
+
+# =========================================================
+# CROSS REFERENCES
+# =========================================================
+crossref:
+  chapters: true
+
+# =========================================================
+# BIBLIOGRAPHY
+# =========================================================
+bibliography: references.bib
+
+# =========================================================
+# OUTPUT FORMATS
+# =========================================================
 format:
 
   html:
     theme: cosmo
+
     toc: true
+    toc-depth: 3
+
     number-sections: true
     number-depth: 2
+
     code-copy: true
+    code-overflow: wrap
+    code-tools: true
+
+    smooth-scroll: true
 
   pdf:
     documentclass: book
+
     toc: true
+
     number-sections: true
     number-depth: 2
+
     fontsize: 11pt
+
     geometry:
       - margin=1in
 
+# =========================================================
+# EXECUTION
+# =========================================================
 execute:
   echo: true
   warning: false
   message: false
+  freeze: auto

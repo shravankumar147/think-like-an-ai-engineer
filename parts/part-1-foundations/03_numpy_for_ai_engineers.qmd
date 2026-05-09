@@ -2,7 +2,7 @@
 title: "NumPy for AI Engineers"
 ---
 
-# Why NumPy Matters
+<!-- # Why NumPy Matters -->
 
 NumPy is the array engine underneath a large part of the Python AI ecosystem.
 

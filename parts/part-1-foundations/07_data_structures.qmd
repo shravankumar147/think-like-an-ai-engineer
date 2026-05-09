@@ -2,7 +2,7 @@
 title: "Data Structures & Complexity for AI"
 ---
 
-# Data Structures & Complexity for AI
+<!-- # Data Structures & Complexity for AI -->
 
 As an AI engineer, you don't typically need to implement red-black trees or custom linked lists from scratch. However, you absolutely must understand Python's core data structures and how they impact performance. 
 

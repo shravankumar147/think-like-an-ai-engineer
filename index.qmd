@@ -1,9 +1,7 @@
 ---
-title: ""
+title: "# Think Like an AI Engineer {.unnumbered}"
 number-sections: false
 ---
-
-# Think Like an AI Engineer
 
 This book is about building systems, not just writing code.
 

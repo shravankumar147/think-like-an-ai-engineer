@@ -1,0 +1,349 @@
+---
+title: "Big-O Notation"
+
+---
+
+<!-- # Big-O Notation -->
+
+## What is Big-O?
+
+Big-O tells us:
+
+> “How fast or slow does a program become as data grows?”
+
+Not with:
+
+* 10 items
+* 100 items
+
+But with:
+
+* 1 million
+* 100 million
+* billions
+
+---
+
+## Real-Life Analogy
+
+Imagine searching for a name in:
+
+### 1. Small notebook
+
+Easy.
+
+### 2. Huge phonebook
+
+Now speed matters.
+
+The way you search changes performance.
+
+That’s what Big-O measures.
+
+---
+
+## Why AI Engineers Must Learn It
+
+AI systems deal with:
+
+* huge datasets
+* embeddings
+* vector databases
+* streaming data
+* retrieval systems
+* inference requests
+
+Even small inefficiencies become expensive.
+
+Example:
+
+* 1 ms × 1 request = fine
+* 1 ms × 100 million requests = disaster
+
+---
+
+## The Main Big-O Types
+
+---
+
+## O(1) — Constant Time
+
+### Meaning
+
+Time does NOT grow with data size.
+
+#### Example
+
+Getting one item from an array.
+
+```python
+arr = [10, 20, 30, 40]
+
+print(arr[2])
+```
+
+No matter:
+
+* 4 items
+* 4 million items
+
+Access is instant.
+
+---
+
+### Real AI Example
+
+Embedding lookup:
+
+```python
+embedding = embeddings[user_id]
+```
+
+Fast retrieval.
+
+---
+
+## O(n) — Linear Time
+
+### Meaning
+
+Work grows linearly with data.
+
+More data → more work.
+
+#### Example
+
+```python
+for x in arr:
+    print(x)
+```
+
+If array size doubles,
+work doubles.
+
+---
+
+### Real AI Example
+
+Scanning all documents:
+
+```python
+for doc in documents:
+    search(doc)
+```
+
+Common in:
+
+* NLP preprocessing
+* dataset cleaning
+* brute-force search
+
+---
+
+## O(log n) — Logarithmic Time
+
+### Meaning
+
+Problem size reduces each step.
+
+Very efficient.
+
+---
+
+### Real-Life Example
+
+Guessing a number:
+
+1–1000
+
+You keep dividing range in half.
+
+That’s binary search.
+
+---
+
+### Example
+
+```python
+binary_search(arr, target)
+```
+
+1 million items:
+
+* linear search → 1,000,000 checks
+* binary search → about 20 checks
+
+Huge difference.
+
+---
+
+### Real AI Example
+
+Used in:
+
+* search systems
+* databases
+* indexing
+* retrieval systems
+
+---
+
+## O(n log n)
+
+Very common in efficient algorithms.
+
+---
+
+### Example
+
+Efficient sorting:
+
+```python
+sorted(arr)
+```
+
+Uses optimized sorting internally.
+
+---
+
+### Real AI Example
+
+Used in:
+
+* ranking systems
+* sorting recommendations
+* preprocessing pipelines
+
+---
+
+## O(n²) — Quadratic Time
+
+### Meaning
+
+Every item compares with every other item.
+
+Dangerous for large data.
+
+---
+
+### Example
+
+```python
+for i in arr:
+    for j in arr:
+        print(i, j)
+```
+
+10 items → 100 operations
+
+1000 items → 1,000,000 operations
+
+---
+
+### Real AI Example
+
+Similarity comparison:
+
+```python
+for user1 in users:
+    for user2 in users:
+        compare(user1, user2)
+```
+
+Very expensive.
+
+This is why vector databases use ANN algorithms.
+
+---
+
+## O(2ⁿ) — Exponential Time
+
+Extremely slow.
+
+Usually brute force recursion.
+
+---
+
+### Example
+
+```python
+def fib(n):
+    if n <= 1:
+        return n
+    return fib(n-1) + fib(n-2)
+```
+
+Looks simple.
+Becomes terrible fast.
+
+---
+
+## Visualization
+
+| Big-O      | Performance |
+| ---------- | ----------- |
+| O(1)       | Excellent   |
+| O(log n)   | Very Fast   |
+| O(n)       | Good        |
+| O(n log n) | Acceptable  |
+| O(n²)      | Slow        |
+| O(2ⁿ)      | Very Slow   |
+
+---
+
+## Simple Way to Think About It
+
+| Situation                          | Big-O      |
+| ---------------------------------- | ---------- |
+| One lookup                         | O(1)       |
+| Scan everything                    | O(n)       |
+| Keep dividing search space         | O(log n)   |
+| Sort efficiently                   | O(n log n) |
+| Compare everything with everything | O(n²)      |
+
+---
+
+## Practical AI Engineering Examples
+
+| Task                          | Complexity |
+| ----------------------------- | ---------- |
+| HashMap lookup                | O(1)       |
+| Scan dataset                  | O(n)       |
+| Binary search in index        | O(log n)   |
+| Sorting embeddings            | O(n log n) |
+| Brute-force similarity search | O(n²)      |
+
+---
+
+## Important Mindset
+
+Big-O is NOT:
+
+* exact speed
+* milliseconds
+* hardware performance
+
+It measures:
+
+> growth of work as input grows
+
+---
+
+## Golden Rule
+
+When data becomes massive:
+
+* O(1)
+* O(log n)
+* O(n)
+
+survive.
+
+But:
+
+* O(n²)
+* O(2ⁿ)
+
+become dangerous.
+
+---

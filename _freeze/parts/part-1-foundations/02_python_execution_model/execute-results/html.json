@@ -1,0 +1,12 @@
+{
+  "hash": "4f33dced28e323ebbacd0dd6d031ee7e",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Python Execution Model\"\n---\n\n\n## The Real Problem\n\nWhen you run:\n\n```python\nx = 10\ny = x\nx = 20\n```\n\n\n## Quick Sanity Test\n\n::: {#6e52b617 .cell execution_count=1}\n``` {.python .cell-code}\nimport sys\nimport numpy as np\n\nprint(\"Python path:\", sys.executable)\nprint(\"NumPy version:\", np.__version__)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nPython path: /Users/shravan/Documents/think-like-an-ai-engineer/.venv/bin/python3\nNumPy version: 2.4.2\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "02_python_execution_model_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -10,7 +10,9 @@ execute:
   message: false
 ---
 
-# Learning Objectives
+<!-- # Learning Objectives -->
+
+<!-- # While Loops: Condition-Driven Iteration -->
 
 By the end of this chapter, you will:
 
@@ -22,7 +24,7 @@ By the end of this chapter, you will:
 
 ---
 
-# The Big Idea
+## The Big Idea
 
 A **while loop** runs **as long as a condition is True**.
 
@@ -37,7 +39,7 @@ Unlike `for` loops:
 
 ---
 
-# Story: The Smart Water Tank
+## Story: The Smart Water Tank
 
 You are building a **smart IoT water system**.
 
@@ -57,7 +59,7 @@ This is the essence of **while loops**.
 
 ---
 
-# Syntax
+## Syntax
 
 ```python
 while condition:
@@ -66,7 +68,7 @@ while condition:
 
 ---
 
-# Basic Example
+## Basic Example
 
 ```{python}
 count = 1
@@ -78,11 +80,11 @@ while count <= 5:
 
 ---
 
-# Critical Concept: Loop Progress
+## Critical Concept: Loop Progress
 
 A `while` loop **must move toward termination**.
 
-## Wrong: Infinite Loop
+### Wrong: Infinite Loop
 
 ```python
 x = 1
@@ -91,7 +93,7 @@ while x <= 5:
     print(x)
 ```
 
-## Correct
+### Correct
 
 ```python
 x = 1
@@ -103,7 +105,7 @@ while x <= 5:
 
 ---
 
-# While vs For: Mental Model
+## While vs For: Mental Model
 
 | Scenario | Best Choice |
 |---|---|
@@ -114,11 +116,11 @@ while x <= 5:
 
 ---
 
-# AI and Data Science Perspective
+## AI and Data Science Perspective
 
 While loops are everywhere in real systems.
 
-## 1. Model Training: Conceptual
+### 1. Model Training: Conceptual
 
 ```python
 loss = 10
@@ -129,7 +131,7 @@ while loss > 0.1:
 
 ---
 
-## 2. Streaming Systems
+### 2. Streaming Systems
 
 ```python
 while True:
@@ -139,7 +141,7 @@ while True:
 
 ---
 
-## 3. Retry Logic: Production Systems
+### 3. Retry Logic: Production Systems
 
 ```python
 success = False
@@ -150,7 +152,7 @@ while not success:
 
 ---
 
-# Infinite Loops
+## Infinite Loops
 
 ```python
 while True:
@@ -167,7 +169,7 @@ Controlled using `break`, which is covered in a later chapter.
 
 ---
 
-# Input-Based Loops
+## Input-Based Loops
 
 ```python
 password = ""
@@ -178,7 +180,7 @@ while password != "admin123":
 
 ---
 
-# Example: Data Pipeline Simulation
+## Example: Data Pipeline Simulation
 
 ```python
 records_processed = 0
@@ -190,9 +192,9 @@ while records_processed < 5:
 
 ---
 
-# Practice Exercises
+## Practice Exercises
 
-## Exercise 1: Print Numbers 1 to 10
+### Exercise 1: Print Numbers 1 to 10
 
 ```python
 # Your code here
@@ -200,7 +202,7 @@ while records_processed < 5:
 
 ---
 
-## Exercise 2: Sum First N Numbers
+### Exercise 2: Sum First N Numbers
 
 ```python
 n = 5
@@ -209,7 +211,7 @@ n = 5
 
 ---
 
-## Exercise 3: Countdown Timer
+### Exercise 3: Countdown Timer
 
 ```python
 timer = 5
@@ -223,7 +225,7 @@ print("Done!")
 
 ---
 
-## Exercise 4: Keep Asking Until Valid Input
+### Exercise 4: Keep Asking Until Valid Input
 
 ```python
 num = -1
@@ -234,16 +236,16 @@ while num < 0:
 
 ---
 
-# Interview Questions
+## Interview Questions
 
-## 1. Difference between `for` and `while`?
+### 1. Difference between `for` and `while`?
 
 - `for`: fixed iterations
 - `while`: condition-based iterations
 
 ---
 
-## 2. What is an infinite loop?
+### 2. What is an infinite loop?
 
 A loop that never stops:
 
@@ -254,7 +256,7 @@ while True:
 
 ---
 
-## 3. How do you prevent infinite loops?
+### 3. How do you prevent infinite loops?
 
 - Update variables
 - Use a proper condition
@@ -262,7 +264,7 @@ while True:
 
 ---
 
-## 4. Where are while loops used in ML systems?
+### 4. Where are while loops used in ML systems?
 
 - Training loops
 - Monitoring systems
@@ -271,9 +273,9 @@ while True:
 
 ---
 
-# Solutions
+## Solutions
 
-## Solution 1
+### Solution 1
 
 ```python
 i = 1
@@ -285,7 +287,7 @@ while i <= 10:
 
 ---
 
-## Solution 2
+### Solution 2
 
 ```python
 n = 5
@@ -301,7 +303,7 @@ print(total)
 
 ---
 
-# Key Takeaways
+## Key Takeaways
 
 - `while` loops run based on **conditions**
 - Use them when repetitions are **unknown**
