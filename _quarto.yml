@@ -18,7 +18,9 @@ book:
     - parts/part-1-python-foundations/05_for_loops.qmd
     - parts/part-1-python-foundations/06_while_loops.qmd
     - parts/part-1-python-foundations/07_data_structures.qmd
-    - games.qmd
+    - part: "Algorithms"
+      chapters:
+        - parts/part-2-algorithms/01_bubble_sort.qmd
     - labs/python-dsa/01_core_structures_practice.ipynb
     - labs/numpy/01_numpy_array_basics.ipynb
     - labs/numpy/02_numpy_vectorized_operations.ipynb

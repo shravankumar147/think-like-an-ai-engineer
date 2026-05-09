@@ -1,0 +1,43 @@
+---
+title: "Bubble Sort"
+---
+
+Bubble Sort is a small algorithm with a useful lesson: order emerges through repeated local decisions.
+
+At each step, the algorithm compares two neighboring values. If they are out of order, it swaps them. After one full pass, the largest remaining value has moved into its final position. Repeat that simple rule enough times, and the whole list becomes sorted.
+
+## Interactive Game
+
+[Open the Bubble Sort Aquarium](../../games/bubble-sort/)
+
+Use the interactive visualization to watch each comparison, swap, and sorted position appear step by step.
+
+## Learning Journey
+
+This chapter is structured as a narrative-driven learning journey around Bubble Sort, inversions, disorder, complexity, and algorithmic thinking.
+
+The goal is not just to memorize the algorithm. The goal is to see how an algorithm gradually reduces disorder, why some inputs require more work than others, and how that work becomes visible in the running time.
+
+## Inversions
+
+An inversion is a pair of values that are in the wrong relative order.
+
+For example, in this list:
+
+```text
+5, 1, 4, 2
+```
+
+`5` is inverted with `1`, `4`, and `2`. Bubble Sort makes progress by removing inversions through adjacent swaps.
+
+## Complexity
+
+Bubble Sort repeatedly scans the list, comparing neighboring values. For a list of `n` items, this leads to roughly `n * n` work in the worst case.
+
+That is why Bubble Sort is usually written as:
+
+```text
+O(n^2)
+```
+
+The algorithm is not famous because it is fast. It is useful because it makes comparison, swapping, disorder, and complexity easy to see.
