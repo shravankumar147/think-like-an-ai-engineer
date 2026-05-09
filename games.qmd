@@ -1,0 +1,7 @@
+---
+title: "Games"
+---
+
+Use these interactive sketches to make algorithms feel visible.
+
+- [Bubble Sort Aquarium](games/bubble-sort/)

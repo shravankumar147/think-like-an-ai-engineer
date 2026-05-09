@@ -1,6 +1,8 @@
 project:
   type: book
   output-dir: _site
+  post-render:
+    - python3 tools/publish_static_games.py
 
 book:
   title: "Think Like an AI Engineer"
@@ -16,6 +18,7 @@ book:
     - parts/part-1-python-foundations/05_for_loops.qmd
     - parts/part-1-python-foundations/06_while_loops.qmd
     - parts/part-1-python-foundations/07_data_structures.qmd
+    - games.qmd
     - labs/python-dsa/01_core_structures_practice.ipynb
     - labs/numpy/01_numpy_array_basics.ipynb
     - labs/numpy/02_numpy_vectorized_operations.ipynb

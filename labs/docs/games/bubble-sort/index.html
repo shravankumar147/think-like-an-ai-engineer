@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bubble Sort Aquarium</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #dff6ff, #8ec5fc);
+      overflow: hidden;
+    }
+
+    .game {
+      width: 92%;
+      max-width: 1100px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #134b70;
+      margin-bottom: 8px;
+    }
+
+    p {
+      text-align: center;
+      color: #333;
+      margin-top: 0;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      cursor: pointer;
+      background: #134b70;
+      color: white;
+      font-size: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      color: #134b70;
+      font-weight: bold;
+    }
+
+    .arena {
+      position: relative;
+      height: 420px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: linear-gradient(to top, #5dade2, #d6f4ff);
+      padding: 20px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+
+    .bubble {
+      width: 60px;
+      position: relative;
+      border-radius: 18px 18px 8px 8px;
+      background: linear-gradient(to top, #1b6ca8, #4fc3f7);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 22px;
+      transition:
+        background 0.35s ease,
+        height 0.35s ease;
+      box-shadow:
+        inset 0 6px 10px rgba(255,255,255,0.35),
+        0 6px 14px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+
+    .bubble::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      top: 12px;
+      left: 12px;
+    }
+
+    .bubble.active {
+      background: linear-gradient(to top, #ff6b6b, #ffb3b3);
+    }
+
+    .bubble.sorted {
+      background: linear-gradient(to top, #2ecc71, #8df5b6);
+    }
+
+    .label {
+      margin-bottom: 10px;
+      pointer-events: none;
+    }
+
+    .message {
+      min-height: 30px;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #0d3b66;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .normal {
+      background: #4fc3f7;
+    }
+
+    .compare {
+      background: #ff6b6b;
+    }
+
+    .done {
+      background: #2ecc71;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>🫧 Bubble Sort Aquarium</h1>
+    <p>Watch bigger bubbles float to the right as Bubble Sort works!</p>
+
+    <div class="controls">
+      <button onclick="shuffleArray()">🔀 Shuffle</button>
+      <button onclick="nextStep()">➡️ Next Step</button>
+      <button onclick="autoPlay()">▶️ Auto Play</button>
+      <button onclick="pausePlay()">⏸ Pause</button>
+    </div>
+
+    <div class="stats">
+      <div>Comparisons: <span id="comparisons">0</span></div>
+      <div>Swaps: <span id="swaps">0</span></div>
+      <div>Pass: <span id="pass">1</span></div>
+    </div>
+
+    <div class="arena" id="arena"></div>
+
+    <div class="legend">
+      <span><span class="dot normal"></span> Normal</span>
+      <span><span class="dot compare"></span> Comparing</span>
+      <span><span class="dot done"></span> Sorted</span>
+    </div>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    let numbers = [5, 1, 4, 2, 8, 3, 7];
+    let i = 0;
+    let j = 0;
+    let comparisons = 0;
+    let swaps = 0;
+    let interval = null;
+    let isAnimating = false;
+
+    const arena = document.getElementById('arena');
+    const comparisonsEl = document.getElementById('comparisons');
+    const swapsEl = document.getElementById('swaps');
+    const passEl = document.getElementById('pass');
+    const messageEl = document.getElementById('message');
+
+    function updateStats() {
+      comparisonsEl.textContent = comparisons;
+      swapsEl.textContent = swaps;
+      passEl.textContent = Math.min(i + 1, numbers.length);
+    }
+
+    function render(active = []) {
+      arena.innerHTML = '';
+
+      numbers.forEach((num, index) => {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+
+        if (active.includes(index)) {
+          bubble.classList.add('active');
+        }
+
+        if (index >= numbers.length - i) {
+          bubble.classList.add('sorted');
+        }
+
+        bubble.style.height = `${num * 35}px`;
+        bubble.dataset.index = index;
+
+        bubble.innerHTML = `<div class="label">${num}</div>`;
+
+        arena.appendChild(bubble);
+      });
+
+      updateStats();
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function animateSwap(leftIndex, rightIndex) {
+      const bubbles = document.querySelectorAll('.bubble');
+
+      const leftBubble = bubbles[leftIndex];
+      const rightBubble = bubbles[rightIndex];
+
+      if (!leftBubble || !rightBubble) {
+        return;
+      }
+
+      const distance = rightBubble.offsetLeft - leftBubble.offsetLeft;
+
+      leftBubble.style.zIndex = '20';
+      rightBubble.style.zIndex = '20';
+
+      // Smooth arc-like crossover
+      leftBubble.animate(
+        [
+          { transform: 'translate(0px, 0px)' },
+          { transform: `translate(${distance * 0.5}px, -55px)` },
+          { transform: `translate(${distance}px, -10px)` },
+          { transform: `translate(${distance}px, 0px)` }
+        ],
+        {
+          duration: 800,
+          easing: 'ease-in-out',
+          fill: 'forwards'
+        }
+      );
+
+      rightBubble.animate(
+        [
+          { transform: 'translate(0px, 0px)' },
+          { transform: `translate(${-distance * 0.5}px, -55px)` },
+          { transform: `translate(${-distance}px, -10px)` },
+          { transform: `translate(${-distance}px, 0px)` }
+        ],
+        {
+          duration: 800,
+          easing: 'ease-in-out',
+          fill: 'forwards'
+        }
+      );
+
+      await sleep(820);
+    }
+
+    async function nextStep() {
+      if (isAnimating) {
+        return;
+      }
+
+      if (i >= numbers.length - 1) {
+        messageEl.textContent = '🎉 Array Sorted Successfully!';
+        render();
+        pausePlay();
+        return;
+      }
+
+      isAnimating = true;
+
+      render([j, j + 1]);
+
+      comparisons++;
+      updateStats();
+
+      if (numbers[j] > numbers[j + 1]) {
+        messageEl.textContent = `🔄 Swapping ${numbers[j]} and ${numbers[j + 1]}...`;
+
+        await animateSwap(j, j + 1);
+
+        [numbers[j], numbers[j + 1]] = [numbers[j + 1], numbers[j]];
+
+        swaps++;
+
+        render([j, j + 1]);
+
+        messageEl.textContent = '🫧 Bigger bubble floated right!';
+      } else {
+        messageEl.textContent = '✅ No swap needed.';
+        await sleep(350);
+      }
+
+      j++;
+
+      if (j >= numbers.length - i - 1) {
+        j = 0;
+        i++;
+      }
+
+      updateStats();
+
+      isAnimating = false;
+    }
+
+    function autoPlay() {
+      if (interval) {
+        return;
+      }
+
+      interval = setInterval(() => {
+        nextStep();
+      }, 1000);
+    }
+
+    function pausePlay() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function resetState() {
+      i = 0;
+      j = 0;
+      comparisons = 0;
+      swaps = 0;
+      isAnimating = false;
+    }
+
+    function shuffleArray() {
+      pausePlay();
+
+      for (let k = numbers.length - 1; k > 0; k--) {
+        const rand = Math.floor(Math.random() * (k + 1));
+        [numbers[k], numbers[rand]] = [numbers[rand], numbers[k]];
+      }
+
+      resetState();
+
+      messageEl.textContent = '🔀 New shuffled bubbles!';
+
+      render();
+    }
+
+    // Initial render
+    render();
+
+    // Simple runtime checks
+    console.assert(Array.isArray(numbers), 'numbers should be an array');
+    console.assert(typeof nextStep === 'function', 'nextStep should exist');
+    console.assert(typeof shuffleArray === 'function', 'shuffleArray should exist');
+    console.assert(typeof autoPlay === 'function', 'autoPlay should exist');
+    console.assert(typeof pausePlay === 'function', 'pausePlay should exist');
+  </script>
+</body>
+</html>
